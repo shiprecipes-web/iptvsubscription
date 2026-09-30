@@ -1,0 +1,129 @@
+---
+---
+
+<section class="trust-strip">
+  <div class="container">
+    <div class="trust-card">
+      <div class="pay-row">
+        <span class="pay-label">Secure payments</span>
+        <div class="pay-logos">
+          <span class="pay visa">VISA</span>
+          <span class="pay mc"><i class="mc-a"></i><i class="mc-b"></i></span>
+          <span class="pay pp"><b class="pp1">Pay</b><b class="pp2">Pal</b></span>
+          <span class="pay gpay"><b class="g">G</b>Pay</span>
+          <span class="pay apay">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z"/></svg>Pay
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust-strip {
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--bg-soft);
+    padding: 30px 0;
+  }
+  .trust-card {
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Payments */
+  .pay-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+  }
+  .pay-label {
+    font-size: 0.76rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+  }
+  .pay-logos {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  /* uniform badge size so the row is perfectly aligned */
+  .pay {
+    width: 66px;
+    height: 42px;
+    border-radius: 8px;
+    background: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    font-weight: 800;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.28);
+    user-select: none;
+    overflow: hidden;
+  }
+  .visa {
+    color: #1a1f71;
+    font-style: italic;
+    font-size: 0.95rem;
+    letter-spacing: 0.5px;
+  }
+  .mc {
+    gap: 0;
+  }
+  .mc i {
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    display: block;
+  }
+  .mc-a {
+    background: #eb001b;
+  }
+  .mc-b {
+    background: #f79e1b;
+    margin-left: -7px;
+    mix-blend-mode: multiply;
+  }
+  .pp {
+    font-style: italic;
+    font-size: 0.74rem;
+  }
+  .pp1 {
+    color: #003087;
+  }
+  .pp2 {
+    color: #009cde;
+  }
+  .gpay {
+    color: #5f6368;
+    font-size: 0.82rem;
+    gap: 1px;
+  }
+  .gpay .g {
+    color: #4285f4;
+  }
+  .apay {
+    color: #000;
+    font-size: 0.82rem;
+    gap: 2px;
+  }
+  .apay svg {
+    width: 14px;
+    height: 14px;
+    fill: #000;
+  }
+
+  @media (max-width: 620px) {
+    .pay-row {
+      flex-direction: column;
+      gap: 12px;
+    }
+  }
+</style>

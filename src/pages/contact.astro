@@ -1,0 +1,130 @@
+---
+import Base from '../layouts/Base.astro';
+import { site } from '../data/site';
+---
+
+<Base title="Contact" description="Contact IPTV Subscription for orders, setup help, renewals, or account questions. Our support team is available 24/7 on WhatsApp and email.">
+  <section class="section">
+    <div class="container contact-grid">
+      <div>
+        <span class="eyebrow">Contact</span>
+        <h1>We're here to help</h1>
+        <p class="muted">
+          Questions about ordering, setup, or your subscription? Reach out and we'll get back to
+          you as soon as possible.
+        </p>
+        <ul class="contact-list">
+          <li>
+            <span>Email</span>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <span>Support hours</span>
+            <strong>24/7</strong>
+          </li>
+          <li>
+            <span>Response time</span>
+            <strong>Usually within a few hours</strong>
+          </li>
+        </ul>
+      </div>
+
+      <form class="card contact-form" action={`mailto:${site.email}`} method="post" enctype="text/plain">
+        <label>
+          Name
+          <input type="text" name="name" required placeholder="Your name" />
+        </label>
+        <label>
+          Email
+          <input type="email" name="email" required placeholder="you@example.com" />
+        </label>
+        <label>
+          Subject
+          <select name="subject">
+            <option>New order</option>
+            <option>Setup help</option>
+            <option>Renewal</option>
+            <option>Other</option>
+          </select>
+        </label>
+        <label>
+          Message
+          <textarea name="message" rows="5" required placeholder="How can we help?"></textarea>
+        </label>
+        <button type="submit" class="btn btn-primary">Send message</button>
+        <p class="form-note muted">
+          This opens your email app. You can also write directly to {site.email}.
+        </p>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .contact-list {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: grid;
+    gap: 16px;
+  }
+  .contact-list li {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    border-left: 3px solid var(--brand);
+    padding-left: 14px;
+  }
+  .contact-list span {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+  }
+  .contact-list a {
+    color: var(--brand);
+    font-weight: 600;
+  }
+  .contact-form {
+    display: grid;
+    gap: 16px;
+  }
+  label {
+    display: grid;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  input,
+  select,
+  textarea {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+  }
+  .form-note {
+    font-size: 0.8rem;
+    margin: 0;
+  }
+  @media (max-width: 780px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

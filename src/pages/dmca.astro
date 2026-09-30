@@ -1,0 +1,246 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../data/site';
+import { WHATSAPP_PHONE, ORDER_LABEL } from '../data/plans';
+
+const dmcaEmail = `dmca@${site.domain}`;
+const waLink = `https://api.whatsapp.com/send/?${new URLSearchParams({
+  phone: WHATSAPP_PHONE,
+  text: `${ORDER_LABEL} - DMCA copyright notice`,
+  type: 'phone_number',
+  app_absent: '0',
+}).toString()}`;
+---
+
+<Legal title="DMCA and Copyright Policy" description="DMCA and copyright policy for iptvsubscription.top: how to file a takedown notice or counter-notice and how our support team responds.">
+  <p>
+    {site.domain} respects the intellectual property rights of others and expects our users and
+    partners to do the same. We comply with the Digital Millennium Copyright Act (DMCA) and
+    equivalent copyright laws. This page explains how to submit a copyright complaint, how we
+    handle it, and how to file a counter-notice.
+  </p>
+
+  <div class="dmca-contact">
+    <div>
+      <h3>Report a copyright concern</h3>
+      <p>Our technical support team reviews every notice and responds, typically within 48 hours.</p>
+    </div>
+    <div class="dmca-actions">
+      <a href={`mailto:${dmcaEmail}?subject=DMCA%20Notice`} class="btn btn-primary">Email {dmcaEmail}</a>
+      <a href={waLink} target="_blank" rel="noopener" class="btn btn-ghost">Contact on WhatsApp</a>
+    </div>
+  </div>
+
+  <h2>Our role</h2>
+  <p>
+    {site.domain} provides access to third-party media streams and software players. We do not host,
+    store, upload, or control the content delivered through these streams on our own servers. Where
+    we are notified of a valid copyright concern relating to content accessible through our service,
+    we will act promptly to disable or remove access to the identified material and, where relevant,
+    forward the notice to the responsible upstream provider.
+  </p>
+
+  <h2>How to file a DMCA takedown notice</h2>
+  <p>
+    If you are a copyright owner, or authorized to act on behalf of one, and you believe material
+    accessible through our service infringes your copyright, please send a written notice to our
+    designated contact that includes all of the following:
+  </p>
+  <ul>
+    <li>A physical or electronic signature of the copyright owner or a person authorized to act on their behalf.</li>
+    <li>Identification of the copyrighted work you claim has been infringed.</li>
+    <li>
+      Identification of the material that is claimed to be infringing, with enough detail for us to
+      locate it (for example, the channel name, stream title, or a description of the content).
+    </li>
+    <li>Your contact information — full name, address, telephone number, and email address.</li>
+    <li>
+      A statement that you have a good-faith belief that the disputed use is not authorized by the
+      copyright owner, its agent, or the law.
+    </li>
+    <li>
+      A statement, made under penalty of perjury, that the information in your notice is accurate and
+      that you are the copyright owner or are authorized to act on the owner's behalf.
+    </li>
+  </ul>
+
+  <h2>Where to send your notice</h2>
+  <p>
+    Send your complete notice to our designated contact. Providing full details helps us verify and
+    act on your request quickly:
+  </p>
+  <ul>
+    <li>Email: <a href={`mailto:${dmcaEmail}`}>{dmcaEmail}</a></li>
+    <li>General support: <a href={`mailto:${site.email}`}>{site.email}</a></li>
+    <li>WhatsApp: <a href={waLink}>message our team</a></li>
+  </ul>
+
+  <h2>What happens after you contact us</h2>
+  <p>
+    When we receive a notice, our technical support team will review and verify it. If the notice is
+    valid, we will disable or remove access to the identified material as soon as reasonably
+    possible and take any further action we consider appropriate, which may include notifying the
+    affected upstream provider. We may contact you for clarification if any required information is
+    missing. We aim to acknowledge every notice within 48 hours.
+  </p>
+
+  <h2>Counter-notification</h2>
+  <p>
+    If you believe material was removed or disabled in error, or as a result of misidentification,
+    you may submit a counter-notice to the same contact above, including:
+  </p>
+  <ul>
+    <li>Your physical or electronic signature.</li>
+    <li>Identification of the material that was removed and the location where it appeared before removal.</li>
+    <li>
+      A statement, under penalty of perjury, that you have a good-faith belief the material was
+      removed or disabled as a result of mistake or misidentification.
+    </li>
+    <li>
+      Your name, address, and telephone number, and a statement that you consent to the jurisdiction
+      of the appropriate court and will accept service of process from the party who filed the
+      original notice.
+    </li>
+  </ul>
+
+  <h2>Repeat infringers</h2>
+  <p>
+    In appropriate circumstances and at our discretion, we will suspend or terminate access for
+    users, partners, or accounts that are determined to be repeat infringers.
+  </p>
+
+  <h2>Good-faith notice</h2>
+  <p>
+    Please note that under Section 512(f) of the DMCA, any person who knowingly materially
+    misrepresents that material is infringing, or was removed by mistake, may be liable for damages.
+    If you are unsure whether material infringes your rights, you may wish to seek legal advice
+    before submitting a notice.
+  </p>
+
+  <h2>Send a notice now</h2>
+  <p>Prefer to write to us directly? Use the form below — it reaches our support team.</p>
+  <form class="dmca-form" action={`mailto:${dmcaEmail}`} method="post" enctype="text/plain">
+    <div class="row">
+      <label>
+        Full name
+        <input type="text" name="name" required placeholder="Your name" />
+      </label>
+      <label>
+        Email
+        <input type="email" name="email" required placeholder="you@example.com" />
+      </label>
+    </div>
+    <label>
+      Type of request
+      <select name="type">
+        <option>DMCA takedown notice</option>
+        <option>Counter-notification</option>
+        <option>Other copyright question</option>
+      </select>
+    </label>
+    <label>
+      Identify the copyrighted work and the infringing material
+      <textarea name="work" rows="3" required placeholder="Describe the work you own and where the material appears (channel or stream name, etc.)"></textarea>
+    </label>
+    <label>
+      Your statement
+      <textarea name="statement" rows="4" required placeholder="Include the good-faith and accuracy statements described above."></textarea>
+    </label>
+    <label class="check">
+      <input type="checkbox" name="perjury" required />
+      <span>I confirm the information is accurate and I am the copyright owner or authorized to act on their behalf, under penalty of perjury.</span>
+    </label>
+    <button type="submit" class="btn btn-primary">Submit notice</button>
+    <p class="form-note">This opens your email app addressed to {dmcaEmail}.</p>
+  </form>
+</Legal>
+
+<style>
+  .dmca-contact {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    background:
+      radial-gradient(500px 200px at 20% 0%, rgba(208, 39, 60, 0.12), transparent),
+      var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px 26px;
+    margin: 28px 0 8px;
+  }
+  .dmca-contact h3 {
+    margin: 0 0 4px;
+    font-size: 1.2rem;
+  }
+  .dmca-contact p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  .dmca-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .dmca-form {
+    display: grid;
+    gap: 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 26px;
+    margin-top: 12px;
+  }
+  .dmca-form .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .dmca-form label {
+    display: grid;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .dmca-form input,
+  .dmca-form select,
+  .dmca-form textarea {
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 14px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.95rem;
+  }
+  .dmca-form input:focus,
+  .dmca-form select:focus,
+  .dmca-form textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+  }
+  .dmca-form .check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-weight: 400;
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .dmca-form .check input {
+    margin-top: 3px;
+    width: auto;
+  }
+  .form-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0;
+  }
+  @media (max-width: 560px) {
+    .dmca-form .row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

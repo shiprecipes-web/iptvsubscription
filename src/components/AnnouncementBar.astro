@@ -1,0 +1,82 @@
+---
+import { announcement } from '../data/site';
+---
+
+{announcement.enabled && (
+<div class="announce" id="announce">
+  <div class="container announce-inner">
+    <p>
+      <span class="announce-emoji">{announcement.emoji}</span>
+      {announcement.text}
+      <a href={announcement.href}>{announcement.cta} →</a>
+    </p>
+    <button class="announce-close" id="announceClose" aria-label="Dismiss">✕</button>
+  </div>
+</div>
+)}
+
+<style>
+  .announce {
+    background: linear-gradient(90deg, var(--red), var(--brand));
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.9rem;
+    position: relative;
+    z-index: 60;
+  }
+  .announce-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    min-height: 40px;
+    padding: 7px 44px 7px 20px;
+    text-align: center;
+  }
+  .announce p {
+    margin: 0;
+  }
+  .announce-emoji {
+    margin-right: 4px;
+  }
+  .announce a {
+    margin-left: 8px;
+    font-weight: 800;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    white-space: nowrap;
+  }
+  .announce-close {
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    opacity: 0.85;
+    line-height: 1;
+    padding: 6px;
+  }
+  .announce-close:hover {
+    opacity: 1;
+  }
+  .announce.hidden {
+    display: none;
+  }
+</style>
+
+<script>
+  const bar = document.getElementById('announce');
+  try {
+    if (sessionStorage.getItem('announce-dismissed')) bar?.classList.add('hidden');
+  } catch {}
+  document.getElementById('announceClose')?.addEventListener('click', () => {
+    bar?.classList.add('hidden');
+    try {
+      sessionStorage.setItem('announce-dismissed', '1');
+    } catch {}
+  });
+</script>

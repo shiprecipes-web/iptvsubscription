@@ -1,0 +1,185 @@
+---
+import Base from '../layouts/Base.astro';
+import { site, stats } from '../data/site';
+---
+
+<Base
+  title="About Us"
+  description="Learn about IPTV Subscription — who we are, what we offer, and why thousands of customers trust us for reliable streaming."
+>
+  <!-- Hero -->
+  <section class="section about-hero">
+    <div class="container">
+      <span class="eyebrow">About us</span>
+      <h1>Streaming, done right</h1>
+      <p class="muted lead">
+        {site.name} was built on a simple idea: premium entertainment should be reliable,
+        affordable, and easy to set up on any device. Today we help thousands of households around
+        the world watch what they love — live TV, sports, movies, and series — without the cost and
+        hassle of traditional cable.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section stats-sec">
+    <div class="container">
+      <div class="grid about-stats">
+        {
+          stats.map((s) => (
+            <div class="about-stat">
+              <strong>
+                {s.value.toLocaleString('en-US')}
+                {s.suffix}
+              </strong>
+              <span>{s.label}</span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="section">
+    <div class="container narrow">
+      <h2>Our mission</h2>
+      <p class="muted">
+        We believe watching great content shouldn't mean overpaying or fighting with complicated
+        setups. Our mission is to deliver a fast, stable streaming experience backed by real human
+        support — so you can spend less time troubleshooting and more time watching.
+      </p>
+
+      <h2>What we stand for</h2>
+      <div class="values">
+        <div class="value">
+          <h3>Reliability first</h3>
+          <p class="muted">
+            Optimized servers and anti-freeze technology keep your streams smooth in HD, FHD, and 4K.
+          </p>
+        </div>
+        <div class="value">
+          <h3>Fair pricing</h3>
+          <p class="muted">
+            Transparent plans with no hidden fees, and bigger savings the longer you stay with us.
+          </p>
+        </div>
+        <div class="value">
+          <h3>Real support</h3>
+          <p class="muted">
+            Our team is available 24/7 on WhatsApp to help with setup, renewals, and any questions.
+          </p>
+        </div>
+        <div class="value">
+          <h3>Every device</h3>
+          <p class="muted">
+            Smart TV, Firestick, Android, iOS, and more — with simple guides and recommended players.
+          </p>
+        </div>
+      </div>
+
+      <h2>Trusted for everyday streaming</h2>
+      <p class="muted">
+        Our customers rely on us for everything from live sports to family movie nights, on every
+        kind of device. Every plan is backed by a 7-day money-back guarantee, so you can try us
+        with confidence.
+      </p>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="about-cta">
+        <h2>Ready to start watching?</h2>
+        <p class="muted">Pick a plan and get activated in minutes — our team is here if you need us.</p>
+        <div class="cta-actions">
+          <a href="/#pricing" class="btn btn-primary">View plans</a>
+          <a href="/contact" class="btn btn-ghost">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lead {
+    max-width: 62ch;
+    font-size: 1.12rem;
+  }
+  .stats-sec {
+    padding-top: 0;
+  }
+  .about-stats {
+    grid-template-columns: repeat(4, 1fr);
+    text-align: center;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px 20px;
+  }
+  .about-stat strong {
+    display: block;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .about-stat span {
+    color: var(--muted);
+    font-size: 0.88rem;
+  }
+  .narrow {
+    max-width: 760px;
+  }
+  .narrow h2 {
+    margin-top: 34px;
+  }
+  .values {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin: 20px 0 8px;
+  }
+  .value {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .value h3 {
+    font-size: 1.1rem;
+    margin: 0 0 6px;
+  }
+  .value p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+  .about-cta {
+    text-align: center;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(63, 109, 255, 0.14), transparent),
+      var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 52px 24px;
+  }
+  .cta-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 720px) {
+    .about-stats {
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .values {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

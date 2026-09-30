@@ -1,0 +1,215 @@
+---
+import Base from '../layouts/Base.astro';
+import { faqCategories, allFaqs } from '../data/faqs';
+import { site } from '../data/site';
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: allFaqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'FAQ', item: `${site.url}/faq` },
+  ],
+};
+---
+
+<Base
+  title="IPTV FAQ — Everything You Need to Know"
+  description="Answers to the most common IPTV questions: how it works, supported devices, setup on Firestick and Smart TV, pricing, refunds, buffering fixes, and more."
+>
+  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+
+  <!-- Header -->
+  <section class="section faq-hero">
+    <div class="container">
+      <span class="eyebrow">Help center</span>
+      <h1>IPTV — Frequently Asked Questions</h1>
+      <p class="muted lead">
+        Everything you need to know about our IPTV service — how it works, which devices and apps
+        are supported, setup, pricing, refunds, and troubleshooting. Can't find your answer?
+        <a href="/contact">Contact us</a> any time.
+      </p>
+
+      <nav class="faq-jump" aria-label="FAQ categories">
+        {
+          faqCategories.map((c, i) => (
+            <a href={`#cat-${i}`}>
+              <span>{c.icon}</span>
+              {c.title}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+  </section>
+
+  <!-- Categories -->
+  {
+    faqCategories.map((cat, i) => (
+      <section class="section faq-cat" id={`cat-${i}`}>
+        <div class="container narrow">
+          <h2 class="cat-title">
+            <span class="cat-icon">{cat.icon}</span>
+            {cat.title}
+          </h2>
+          <div class="faq-list">
+            {cat.items.map((f) => (
+              <details class="faq">
+                <summary>{f.q}</summary>
+                <p class="muted">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="faq-cta">
+        <h2>Still have a question?</h2>
+        <p class="muted">
+          Our team is available 24/7. Pick a plan to get started, or message us and we'll help you
+          choose.
+        </p>
+        <div class="cta-actions">
+          <a href="/#pricing" class="btn btn-primary">View plans</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .faq-hero {
+    padding-bottom: 20px;
+  }
+  .lead {
+    max-width: 64ch;
+    font-size: 1.1rem;
+  }
+  .lead a {
+    color: var(--brand);
+    font-weight: 600;
+  }
+  .faq-jump {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 26px;
+  }
+  .faq-jump a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--muted);
+    transition: border-color 0.2s, color 0.2s, transform 0.15s;
+  }
+  .faq-jump a:hover {
+    color: var(--text);
+    border-color: var(--brand);
+    transform: translateY(-2px);
+  }
+
+  .faq-cat {
+    padding: 34px 0;
+    scroll-margin-top: 90px;
+  }
+  .cat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.5rem;
+    margin-bottom: 22px;
+  }
+  .cat-icon {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    font-size: 1.1rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 12px;
+  }
+  .faq {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 4px 20px;
+    transition: border-color 0.2s ease;
+  }
+  .faq:hover {
+    border-color: var(--brand);
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+    padding: 16px 0;
+    list-style: none;
+    position: relative;
+    padding-right: 30px;
+  }
+  .faq summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq summary::after {
+    content: '+';
+    position: absolute;
+    right: 0;
+    top: 14px;
+    font-size: 1.3rem;
+    color: var(--brand);
+    transition: transform 0.2s ease;
+  }
+  .faq[open] summary::after {
+    content: '−';
+  }
+  .faq p {
+    padding-bottom: 16px;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  .faq-cta {
+    text-align: center;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(63, 109, 255, 0.14), transparent),
+      var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 52px 24px;
+  }
+  .cta-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 22px;
+    flex-wrap: wrap;
+  }
+</style>

@@ -1,0 +1,123 @@
+---
+import { site, nav } from '../data/site';
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <img class="logo-mark" src="/images/logo-mark.png" alt={`${site.name} logo`} width="32" height="32" />
+      <span class="logo-text">IPTV <span class="logo-tld">Subscription</span></span>
+    </a>
+
+    <nav class="nav" id="nav">
+      {nav.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+
+    <div class="header-cta">
+      <a href={site.orderUrl} class="btn btn-primary">Order Now</a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 18, 48, 0.82);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    transition: box-shadow 0.3s ease, background 0.3s ease;
+  }
+  .site-header.scrolled {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    background: rgba(10, 18, 48, 0.92);
+  }
+  .header-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 68px;
+    gap: 16px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+  }
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+  .logo-tld {
+    color: var(--brand);
+  }
+  .nav {
+    display: flex;
+    gap: 26px;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .nav a {
+    color: var(--muted);
+    transition: color 0.2s;
+  }
+  .nav a:hover {
+    color: var(--text);
+  }
+  .header-cta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .menu-toggle {
+    display: none;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-size: 1.2rem;
+    border-radius: 10px;
+    width: 42px;
+    height: 42px;
+    cursor: pointer;
+  }
+  @media (max-width: 860px) {
+    .nav {
+      position: fixed;
+      inset: 68px 0 auto 0;
+      flex-direction: column;
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--border);
+      padding: 18px 20px;
+      gap: 14px;
+      transform: translateY(-140%);
+      transition: transform 0.25s ease;
+    }
+    .nav.open {
+      transform: translateY(0);
+    }
+    .menu-toggle {
+      display: grid;
+      place-items: center;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('menuToggle');
+  const nav = document.getElementById('nav');
+  toggle?.addEventListener('click', () => nav?.classList.toggle('open'));
+  nav?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => nav.classList.remove('open'))
+  );
+
+  const header = document.querySelector('.site-header');
+  const onScroll = () => header?.classList.toggle('scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>

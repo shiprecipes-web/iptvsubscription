@@ -1,0 +1,260 @@
+---
+import {
+  tiers,
+  durations,
+  planIncludes,
+  orderLink,
+  WHATSAPP_PHONE,
+  ORDER_LABEL,
+} from '../data/plans';
+
+const DEFAULT = durations.find((d) => d.id === '1y')!;
+const fmt = (n: number) => (Number.isInteger(n) ? `${n}` : n.toFixed(2));
+const perMonth = (price: number, months: number) =>
+  months > 1 ? `$${fmt(Math.round((price / months) * 100) / 100)} / mo` : '';
+---
+
+<section class="section pricing" id="pricing">
+  <div class="container">
+    <div class="center">
+      <span class="eyebrow">Plans &amp; pricing</span>
+      <h2>Choose your plan</h2>
+      <p class="muted section-sub">
+        Every plan includes the full library — pick how many devices stream at once and how long
+        you want to save.
+      </p>
+    </div>
+
+    <div class="period" role="tablist" aria-label="Billing period">
+      {
+        durations.map((d) => (
+          <button
+            class:list={['period-btn', { active: d.id === DEFAULT.id }]}
+            role="tab"
+            aria-selected={d.id === DEFAULT.id}
+            data-dur={d.id}
+          >
+            {d.label}
+            {d.save && <span class="p-save">-{d.save}%</span>}
+          </button>
+        ))
+      }
+    </div>
+
+    <div class="cards">
+      {
+        tiers.map((tier) => {
+          const price = tier.prices[DEFAULT.id];
+          return (
+            <article class:list={['sp-card', { featured: tier.popular }]}>
+              {tier.popular && <span class="ribbon">Most popular</span>}
+              <div class="sp-top">
+                <span class="sp-dev">{'▸'.repeat(tier.devices)}</span>
+                <h3>{tier.name}</h3>
+                <p class="sp-blurb muted">{tier.blurb}</p>
+              </div>
+
+              <div class="sp-price">
+                <span class="cur">$</span>
+                <span class="amt" data-amt>{price}</span>
+                <span class="per" data-per>/ {DEFAULT.short}</span>
+              </div>
+              <div class="sp-meta">
+                <span class="permo" data-permo>{perMonth(price, DEFAULT.months)}</span>
+                <span class="save" data-save hidden={!DEFAULT.save}>
+                  {DEFAULT.save ? `Save ${DEFAULT.save}%` : ''}
+                </span>
+              </div>
+
+              <a
+                class:list={['btn', 'sp-btn', tier.popular ? 'btn-primary' : 'btn-ghost']}
+                data-order
+                data-devices={tier.devices}
+                href={orderLink(tier, DEFAULT)}
+                target="_blank"
+                rel="noopener"
+              >
+                <svg class="wa" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3C9 3 3.5 8.5 3.5 15.5c0 2.4.7 4.6 1.8 6.5L3 29l7.2-2.2c1.8 1 3.9 1.6 6 1.6 6.9 0 12.5-5.6 12.5-12.5S22.9 3 16 3zm0 22.7c-1.9 0-3.7-.5-5.2-1.4l-.4-.2-4.3 1.3 1.3-4.2-.3-.4c-1-1.6-1.6-3.5-1.6-5.6 0-5.7 4.6-10.3 10.3-10.3s10.3 4.6 10.3 10.3-4.6 10.5-10.4 10.5zm5.8-7.7c-.3-.2-1.9-.9-2.2-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.2-.6.1c-1.9-.9-3.1-1.7-4.4-3.8-.3-.5.3-.5.9-1.6.1-.2 0-.4 0-.6s-.7-1.7-1-2.3c-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.6.1-.8.4-.3.4-1.1 1.1-1.1 2.6s1.1 3 1.3 3.2c.2.2 2.2 3.4 5.4 4.8 2 .8 2.7.9 3.7.8.6-.1 1.9-.8 2.2-1.5.3-.8.3-1.4.2-1.5-.1-.3-.3-.4-.6-.5z"/></svg>
+                Order on WhatsApp
+              </a>
+
+              <ul class="sp-feats">
+                {planIncludes.map((f) => <li>{f}</li>)}
+              </ul>
+            </article>
+          );
+        })
+      }
+    </div>
+
+    <p class="sp-note muted">🔒 Secure ordering · 7-day money-back guarantee · Instant activation</p>
+  </div>
+</section>
+
+<script
+  define:vars={{ tiers, durations, phone: WHATSAPP_PHONE, label: ORDER_LABEL }}
+>
+  const fmt = (n) => (Number.isInteger(n) ? `${n}` : n.toFixed(2));
+  const round2 = (n) => Math.round(n * 100) / 100;
+  function buildLink(devices, durLabel, price) {
+    const dev = devices === 1 ? '1 Device' : `${devices} Devices`;
+    const p = new URLSearchParams({
+      phone,
+      text: `${label} - ${durLabel} / ${dev} - ${price} USD`,
+      type: 'phone_number',
+      app_absent: '0',
+    });
+    return `https://api.whatsapp.com/send/?${p.toString()}`;
+  }
+  const section = document.getElementById('pricing');
+  const btns = section.querySelectorAll('.period-btn');
+  const cards = section.querySelectorAll('.sp-card');
+  function apply(id) {
+    const dur = durations.find((d) => d.id === id);
+    cards.forEach((card, i) => {
+      const tier = tiers[i];
+      const price = tier.prices[id];
+      const amt = card.querySelector('[data-amt]');
+      card.querySelector('[data-per]').textContent = `/ ${dur.short}`;
+      card.querySelector('[data-permo]').textContent =
+        dur.months > 1 ? `$${fmt(round2(price / dur.months))} / mo` : '';
+      const save = card.querySelector('[data-save]');
+      if (dur.save) { save.textContent = `Save ${dur.save}%`; save.hidden = false; }
+      else save.hidden = true;
+      card.querySelector('[data-order]').setAttribute('href', buildLink(tier.devices, dur.label, price));
+      amt.textContent = price;
+      amt.classList.remove('pop'); void amt.offsetWidth; amt.classList.add('pop');
+    });
+  }
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => { x.classList.remove('active'); x.setAttribute('aria-selected', 'false'); });
+    b.classList.add('active'); b.setAttribute('aria-selected', 'true');
+    apply(b.dataset.dur);
+  }));
+</script>
+
+<style>
+  .section-sub { max-width: 56ch; margin: 8px auto 0; }
+
+  .period {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    width: fit-content;
+    max-width: 100%;
+    margin: 30px auto 46px;
+    padding: 6px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+  }
+  .period-btn {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.88rem;
+    padding: 9px 16px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: color 0.2s, background 0.25s;
+  }
+  .period-btn:hover { color: var(--text); }
+  .period-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+  }
+  .p-save {
+    font-size: 0.62rem; font-weight: 800; margin-left: 5px;
+    padding: 1px 6px; border-radius: 999px;
+    background: rgba(208, 39, 60, 0.18); color: #ff8091;
+  }
+  .period-btn.active .p-save { background: rgba(255,255,255,0.25); color: #fff; }
+
+  .cards {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr 1fr;
+    gap: 20px;
+    align-items: center;
+  }
+  .sp-card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 30px 26px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.28s ease, box-shadow 0.28s ease;
+  }
+  .sp-card:not(.featured):hover { transform: translateY(-6px); box-shadow: 0 18px 44px rgba(0,0,0,0.4); }
+  .sp-card.featured {
+    background:
+      radial-gradient(600px 300px at 50% -10%, rgba(208, 39, 60, 0.18), transparent),
+      linear-gradient(180deg, var(--surface-2), var(--surface));
+    border-color: var(--red);
+    padding: 40px 30px;
+    box-shadow: 0 26px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(208, 39, 60, 0.4);
+    z-index: 1;
+  }
+  .ribbon {
+    position: absolute;
+    top: -14px; left: 50%; transform: translateX(-50%);
+    font-size: 0.68rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+    color: #fff; white-space: nowrap;
+    background: linear-gradient(135deg, var(--red), var(--red-2));
+    padding: 6px 18px; border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(208, 39, 60, 0.5);
+  }
+  .sp-dev { color: var(--brand); letter-spacing: 3px; font-size: 0.9rem; }
+  .featured .sp-dev { color: var(--red); }
+  .sp-card h3 { font-size: 1.4rem; margin: 8px 0 6px; }
+  .sp-blurb { font-size: 0.88rem; min-height: 2.6em; margin: 0; }
+
+  .sp-price {
+    display: flex; align-items: flex-start; gap: 3px;
+    margin: 20px 0 4px; line-height: 1;
+  }
+  .cur { font-size: 1.4rem; font-weight: 800; color: var(--muted); margin-top: 8px; }
+  .amt {
+    font-size: 3.6rem; font-weight: 800; letter-spacing: -0.03em; display: inline-block;
+    background: linear-gradient(135deg, #fff, #cbd6ff);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .featured .amt { background: linear-gradient(135deg, #fff, #ffc2ca); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .per { align-self: flex-end; color: var(--muted); font-size: 0.9rem; margin-bottom: 8px; }
+  .sp-meta { display: flex; align-items: center; gap: 10px; min-height: 24px; margin-bottom: 22px; }
+  .permo { font-size: 0.85rem; font-weight: 600; }
+  .save {
+    font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.04em;
+    color: var(--accent); background: rgba(91, 141, 255, 0.16); padding: 3px 9px; border-radius: 999px;
+  }
+  .sp-btn { width: 100%; gap: 9px; }
+  .wa { width: 19px; height: 19px; fill: currentColor; }
+
+  .sp-feats {
+    list-style: none; margin: 22px 0 0; padding: 22px 0 0; border-top: 1px solid var(--border);
+    display: grid; gap: 10px; font-size: 0.9rem;
+  }
+  .sp-feats li { position: relative; padding-left: 26px; }
+  .sp-feats li::before {
+    content: '✓'; position: absolute; left: 0; top: -1px;
+    width: 18px; height: 18px; border-radius: 50%; display: grid; place-items: center;
+    font-size: 0.68rem; font-weight: 800; color: #fff; background: var(--brand);
+  }
+  .featured .sp-feats li::before { background: var(--red); }
+
+  .sp-note { text-align: center; margin-top: 30px; font-size: 0.9rem; }
+
+  :global(.amt.pop) { animation: amtPop 0.4s cubic-bezier(0.22,0.7,0.2,1); }
+  @keyframes amtPop { 0% { transform: translateY(8px) scale(0.9); opacity: 0.2; } 100% { transform: none; opacity: 1; } }
+
+  @media (max-width: 900px) {
+    .cards { grid-template-columns: 1fr; max-width: 440px; margin: 0 auto; }
+    .sp-card.featured { padding: 34px 28px; }
+  }
+  @media (prefers-reduced-motion: reduce) { :global(.amt.pop) { animation: none; } }
+</style>

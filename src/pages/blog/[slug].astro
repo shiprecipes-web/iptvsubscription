@@ -1,0 +1,103 @@
+---
+import Base from '../../layouts/Base.astro';
+import { posts, coverFor } from '../../data/posts';
+import { site } from '../../data/site';
+
+export function getStaticPaths() {
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const dateStr = new Date(post.date).toLocaleDateString('en-US', {
+  month: 'long',
+  day: 'numeric',
+  year: 'numeric',
+});
+
+const cover = coverFor(post.slug);
+const articleSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  headline: post.title,
+  description: post.excerpt,
+  datePublished: post.date,
+  dateModified: post.date,
+  author: { '@type': 'Organization', name: site.name },
+  publisher: { '@type': 'Organization', name: site.name },
+  mainEntityOfPage: `${site.url}/blog/${post.slug}`,
+  ...(cover ? { image: new URL(cover, site.url).href } : {}),
+};
+---
+
+<Base title={post.title} description={post.excerpt} image={cover ?? undefined}>
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+  <article class="section">
+    <div class="container article">
+      <a href="/blog" class="back muted">← All guides</a>
+      <span class="post-date muted">{dateStr}</span>
+      <h1>{post.title}</h1>
+      {cover && <img class="article-cover" src={cover} alt={post.title} width="1376" height="768" fetchpriority="high" />}
+      {
+        post.body.map((para) =>
+          para.startsWith('## ') ? <h2>{para.slice(3)}</h2> : <p set:html={para} />
+        )
+      }
+
+      <div class="post-cta card">
+        <h3>Ready to get started?</h3>
+        <p class="muted">Pick a plan and get activated fast.</p>
+        <a href="/#pricing" class="btn btn-primary">View plans</a>
+      </div>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .article {
+    max-width: 720px;
+  }
+  .back {
+    display: inline-block;
+    margin-bottom: 18px;
+    font-weight: 600;
+  }
+  .post-date {
+    display: block;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+  }
+  .article-cover {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border);
+    margin: 18px 0 26px;
+  }
+  .article p {
+    font-size: 1.05rem;
+    line-height: 1.75;
+  }
+  .article h2 {
+    font-size: 1.45rem;
+    margin: 34px 0 10px;
+  }
+  .article :global(a) {
+    color: var(--brand);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .article :global(a:hover) {
+    color: var(--text);
+  }
+  .post-cta {
+    margin-top: 40px;
+    text-align: center;
+  }
+  .post-cta h3 {
+    margin-bottom: 6px;
+  }
+</style>

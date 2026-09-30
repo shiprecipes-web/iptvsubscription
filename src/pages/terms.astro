@@ -1,0 +1,52 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { site } from '../data/site';
+---
+
+<Legal title="Terms of Service" description="Terms of Service for iptvsubscription.top: how our IPTV subscriptions work, acceptable use, payments, availability, and your responsibilities.">
+  <p>
+    By ordering and using a subscription from {site.domain}, you agree to these Terms of Service.
+    Please read them carefully before placing an order.
+  </p>
+
+  <h2>1. Service</h2>
+  <p>
+    We provide access to media streaming services intended for personal, non-commercial use. Each
+    subscription is licensed for a single active connection unless otherwise stated.
+  </p>
+
+  <h2>2. Account & activation</h2>
+  <p>
+    You are responsible for keeping your login details secure. Do not share or resell your
+    subscription. We reserve the right to suspend accounts that are shared beyond the permitted
+    number of connections.
+  </p>
+
+  <h2>3. Acceptable use</h2>
+  <ul>
+    <li>Use the service only for lawful, personal viewing.</li>
+    <li>Do not redistribute, rebroadcast, or resell the service.</li>
+    <li>Do not attempt to disrupt or reverse engineer the service.</li>
+  </ul>
+
+  <h2>4. Payments</h2>
+  <p>
+    Prices are shown at checkout and are billed for the term you select. Subscriptions do not
+    auto-renew unless stated; you may renew manually before expiry.
+  </p>
+
+  <h2>5. Availability</h2>
+  <p>
+    We aim for high uptime but do not guarantee uninterrupted service. Channel line-ups and
+    content availability may change without notice.
+  </p>
+
+  <h2>6. Changes</h2>
+  <p>
+    We may update these terms from time to time. Continued use of the service after changes means
+    you accept the updated terms.
+  </p>
+
+  <h2>7. Contact</h2>
+  <p>Questions about these terms? Email us at {site.email}.</p>
+</Legal>

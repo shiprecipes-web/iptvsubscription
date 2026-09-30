@@ -1,0 +1,122 @@
+---
+import { site, nav } from '../data/site';
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+  <div class="container footer-grid">
+    <div>
+      <a href="/" class="logo">
+        <img class="logo-mark" src="/images/logo-mark.png" alt={`${site.name} logo`} width="28" height="28" />
+        <span>IPTV <span class="logo-tld">Subscription</span></span>
+      </a>
+      <p class="muted foot-blurb">{site.description}</p>
+    </div>
+
+    <div>
+      <h4>Navigate</h4>
+      <ul>
+        {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
+      </ul>
+    </div>
+
+    <div>
+      <h4>Support</h4>
+      <ul>
+        <li><a href="/contact">Contact us</a></li>
+        <li><a href="/#faq">FAQ</a></li>
+        <li><a href="/apps">Installation guide</a></li>
+        <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+      </ul>
+    </div>
+
+    <div>
+      <h4>Legal</h4>
+      <ul>
+        <li><a href="/terms">Terms of Service</a></li>
+        <li><a href="/privacy">Privacy Policy</a></li>
+        <li><a href="/refund">Refund Policy</a></li>
+        <li><a href="/dmca">DMCA & Copyright</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="container foot-bottom">
+    <p class="muted">© {year} {site.domain}. All rights reserved.</p>
+    <p class="muted">
+      Disclaimer: We provide access to legally available media streams and do not host or
+      distribute copyrighted content.
+    </p>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    border-top: 1px solid var(--border);
+    background: var(--bg-soft);
+    padding: 56px 0 28px;
+    margin-top: 40px;
+  }
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr 1fr;
+    gap: 32px;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 800;
+    font-size: 1.1rem;
+  }
+  .logo-mark {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+  }
+  .logo-tld {
+    color: var(--brand);
+  }
+  .foot-blurb {
+    margin-top: 14px;
+    max-width: 42ch;
+    font-size: 0.92rem;
+  }
+  h4 {
+    font-size: 0.95rem;
+    margin: 0 0 14px;
+  }
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+  }
+  ul a {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+  ul a:hover {
+    color: var(--text);
+  }
+  .foot-bottom {
+    margin-top: 40px;
+    padding-top: 22px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 0.82rem;
+  }
+  @media (max-width: 780px) {
+    .footer-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+  @media (max-width: 480px) {
+    .footer-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

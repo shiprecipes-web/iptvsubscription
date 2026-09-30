@@ -1,0 +1,305 @@
+---
+import { tiers, durations } from '../data/plans';
+import { site } from '../data/site';
+
+const oneYear = durations.find((d) => d.id === '1y')!;
+const fromPrice = Math.min(...tiers.map((t) => t.prices['1y']));
+---
+
+<div class="promo-overlay" id="promoOverlay" hidden>
+  <div class="promo-modal" role="dialog" aria-modal="true" aria-labelledby="promoTitle">
+    <button class="promo-close" id="promoClose" aria-label="Close offer">✕</button>
+
+    <span class="promo-badge">🔥 Limited-time offer</span>
+    <h2 id="promoTitle">Get a Full Year of IPTV</h2>
+    <p class="promo-sub">
+      Save up to <b>{oneYear.save}%</b> vs paying monthly — 34,000+ channels, 130,000+ movies &amp;
+      series, on every device.
+    </p>
+
+    <div class="promo-price">
+      <span class="pp-from">from</span>
+      <span class="pp-amt">${fromPrice}</span>
+      <span class="pp-per">/ year</span>
+    </div>
+
+    <div class="promo-opts">
+      {
+        tiers.map((t) => (
+          <div class:list={['promo-opt', { pop: t.popular }]}>
+            {t.popular && <span class="po-tag">Best</span>}
+            <span class="po-name">{t.name}</span>
+            <span class="po-price">
+              ${t.prices['1y']}<em>/yr</em>
+            </span>
+          </div>
+        ))
+      }
+    </div>
+
+    <a href={site.orderUrl} class="btn btn-primary promo-cta" id="promoOrder">Order Now</a>
+
+    <ul class="promo-feats">
+      <li>7-day money-back</li>
+      <li>Instant activation</li>
+      <li>Player included</li>
+    </ul>
+  </div>
+</div>
+
+<style>
+  .promo-overlay[hidden] {
+    display: none;
+  }
+  .promo-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    padding: 20px;
+    background: rgba(5, 8, 20, 0.7);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .promo-overlay.show {
+    opacity: 1;
+  }
+  .promo-modal {
+    position: relative;
+    width: 100%;
+    max-width: 440px;
+    background:
+      radial-gradient(500px 240px at 50% -10%, rgba(208, 39, 60, 0.22), transparent),
+      linear-gradient(180deg, var(--surface-2), var(--surface));
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 34px 28px 26px;
+    text-align: center;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6);
+    transform: translateY(18px) scale(0.96);
+    transition: transform 0.32s cubic-bezier(0.22, 0.7, 0.2, 1);
+  }
+  .promo-overlay.show .promo-modal {
+    transform: none;
+  }
+  .promo-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    background: rgba(0, 0, 0, 0.25);
+    color: var(--muted);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .promo-close:hover {
+    color: var(--text);
+    border-color: var(--brand);
+  }
+  .promo-badge {
+    display: inline-block;
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #fff;
+    background: linear-gradient(135deg, var(--red), var(--red-2));
+    padding: 5px 14px;
+    border-radius: 999px;
+  }
+  .promo-modal h2 {
+    font-size: 1.6rem;
+    margin: 14px 0 8px;
+  }
+  .promo-sub {
+    color: var(--muted);
+    font-size: 0.92rem;
+    margin: 0 auto 18px;
+    max-width: 34ch;
+  }
+  .promo-sub b {
+    color: #ff8091;
+  }
+  .promo-price {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .pp-from {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+  .pp-amt {
+    font-size: 2.8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    background: linear-gradient(135deg, #fff, #ffc2ca);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .pp-per {
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .promo-opts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .promo-opt {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 14px 8px;
+    border-radius: var(--radius);
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    transition: transform 0.16s ease, border-color 0.2s ease;
+  }
+  .promo-opt:hover {
+    transform: translateY(-3px);
+    border-color: var(--brand);
+  }
+  .promo-opt.pop {
+    border-color: var(--red);
+    background: linear-gradient(180deg, rgba(208, 39, 60, 0.12), var(--bg-soft));
+  }
+  .po-tag {
+    position: absolute;
+    top: -9px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.58rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fff;
+    background: linear-gradient(135deg, var(--red), var(--red-2));
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+  .po-name {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-weight: 700;
+  }
+  .po-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+  .po-price em {
+    font-style: normal;
+    font-size: 0.66rem;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .promo-cta {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+  .promo-feats {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+  }
+  .promo-feats li {
+    position: relative;
+    padding-left: 18px;
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+  .promo-feats li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: 800;
+  }
+  .promo-note {
+    margin: 0;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .promo-overlay,
+    .promo-modal {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  const overlay = document.getElementById('promoOverlay');
+  const closeBtn = document.getElementById('promoClose');
+  const KEY = 'promo-seen';
+
+  const seen = () => {
+    try {
+      return sessionStorage.getItem(KEY) === '1';
+    } catch {
+      return false;
+    }
+  };
+  const remember = () => {
+    try {
+      sessionStorage.setItem(KEY, '1');
+    } catch {}
+  };
+
+  let opened = false;
+  function open() {
+    if (opened || seen() || !overlay) return;
+    opened = true;
+    overlay.hidden = false;
+    requestAnimationFrame(() => overlay.classList.add('show'));
+  }
+  function close() {
+    if (!overlay) return;
+    overlay.classList.remove('show');
+    remember();
+    setTimeout(() => (overlay.hidden = true), 320);
+  }
+
+  if (!seen()) {
+    // show after a short delay…
+    const timer = setTimeout(open, 7000);
+    // …or on exit-intent, whichever comes first
+    const onExit = (e: MouseEvent) => {
+      if (e.clientY <= 0) {
+        clearTimeout(timer);
+        open();
+        document.removeEventListener('mouseout', onExit);
+      }
+    };
+    document.addEventListener('mouseout', onExit);
+  }
+
+  closeBtn?.addEventListener('click', close);
+  overlay?.addEventListener('click', (e) => {
+    if (e.target === overlay) close();
+  });
+  document.getElementById('promoOrder')?.addEventListener('click', () => {
+    remember();
+    close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && overlay && !overlay.hidden) close();
+  });
+</script>

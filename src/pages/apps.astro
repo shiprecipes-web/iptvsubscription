@@ -1,0 +1,688 @@
+---
+import Base from '../layouts/Base.astro';
+import { players } from '../data/players';
+import { WHATSAPP_PHONE, ORDER_LABEL } from '../data/plans';
+
+const supportLink = `https://api.whatsapp.com/send/?${new URLSearchParams({
+  phone: WHATSAPP_PHONE,
+  text: `${ORDER_LABEL} - I need help setting up my player`,
+  type: 'phone_number',
+  app_absent: '0',
+}).toString()}`;
+
+// Extract the YouTube video id from a watch/share URL.
+const ytId = (url: string): string => {
+  const m = url.match(/[?&]v=([\w-]{11})|youtu\.be\/([\w-]{11})|embed\/([\w-]{11})/);
+  return m ? m[1] || m[2] || m[3] : '';
+};
+const ytThumb = (url: string) => `https://i.ytimg.com/vi/${ytId(url)}/hqdefault.jpg`;
+---
+
+<Base
+  title="Installation Guide"
+  description="Step-by-step setup for IBO Player Pro and HotPlayer on any device — install the app, register your device, and load your playlist."
+>
+  <!-- Header -->
+  <section class="section guide-hero">
+    <div class="container guide-hero-inner">
+      <div>
+        <span class="eyebrow">Installation guide</span>
+        <h1>Set up your player in minutes</h1>
+        <p class="muted lead">
+          We recommend two players — <strong>IBO Player Pro</strong> and <strong>HotPlayer</strong>.
+          Both work the same simple way: install the app, register your device on the player's
+          website, and paste in the playlist link we send you.
+        </p>
+      </div>
+      <img
+        class="guide-hero-img"
+        src="/images/device-firestick.png"
+        alt="Streaming stick and remote for IPTV"
+        width="819"
+        height="464"
+        fetchpriority="high"
+      />
+    </div>
+  </section>
+
+  <!-- What you'll need -->
+  <section class="section need-sec">
+    <div class="container">
+      <div class="need card">
+        <div class="need-icon">📋</div>
+        <div>
+          <h2>Before you start</h2>
+          <p class="muted">
+            After you order on WhatsApp, we send you your login — either an <strong>M3U URL</strong>
+            or an <strong>Xtream Codes</strong> login (username, password &amp; server host). Have
+            that message ready. You'll also need the device you want to watch on and a stable
+            internet connection.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Player tabs -->
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Choose your player</span>
+        <h2>Pick the app you're using</h2>
+      </div>
+
+      <div class="player-tabs" role="tablist" aria-label="Player">
+        {
+          players.map((p, i) => (
+            <button
+              class:list={['player-tab', { active: i === 0 }]}
+              role="tab"
+              aria-selected={i === 0}
+              data-tab={p.id}
+            >
+              {p.name}
+            </button>
+          ))
+        }
+      </div>
+
+      {
+        players.map((p, i) => (
+          <div class:list={['player-panel', { active: i === 0 }]} data-panel={p.id}>
+            <div class="panel-head">
+              <div>
+                <h3>{p.name}</h3>
+                <p class="muted">{p.tagline}</p>
+                <div class="chips">
+                  {p.platforms.map((pl) => <span class="chip">{pl}</span>)}
+                </div>
+              </div>
+              <div class="panel-actions">
+                <a href={p.portalUrl} target="_blank" rel="noopener" class="btn btn-primary">
+                  {p.portalLabel} ↗
+                </a>
+                <a href={p.site} target="_blank" rel="noopener" class="btn btn-ghost">
+                  Download app ↗
+                </a>
+              </div>
+            </div>
+
+            <ol class="timeline">
+              {p.steps.map((s, idx) => (
+                <li class="tl-step">
+                  <span class="tl-num">{idx + 1}</span>
+                  <div class="tl-body">
+                    <h4>{s.title}</h4>
+                    <p class="muted">{s.text}</p>
+                  </div>
+                </li>
+              ))}
+            </ol>
+
+            {p.videos && (
+              <div class="videos">
+                <h4 class="videos-title">
+                  <span>▶</span> Watch the video tutorial for your device
+                </h4>
+                <div class="video-grid">
+                  {p.videos.map((v) => (
+                    <a href={v.url} target="_blank" rel="noopener" class="video-card">
+                      <span class="vc-thumb">
+                        <img
+                          src={ytThumb(v.url)}
+                          alt={`${p.name} install tutorial — ${v.label}`}
+                          width="480"
+                          height="360"
+                          loading="lazy"
+                        />
+                        <span class="vc-play" aria-hidden="true">
+                          <svg viewBox="0 0 68 48"><path class="yt-bg" d="M66.52 7.74c-.78-2.93-2.49-5.41-5.42-6.19C55.79.13 34 0 34 0S12.21.13 6.9 1.55c-2.93.78-4.63 3.26-5.42 6.19C.06 13.05 0 24 0 24s.06 10.95 1.48 16.26c.78 2.93 2.49 5.41 5.42 6.19C12.21 47.87 34 48 34 48s21.79-.13 27.1-1.55c2.93-.78 4.64-3.26 5.42-6.19C67.94 34.95 68 24 68 24s-.06-10.95-1.48-16.26z"/><path d="M45 24 27 14v20z" fill="#fff"/></svg>
+                        </span>
+                        <span class="vc-badge">Watch on YouTube</span>
+                      </span>
+                      <span class="vc-title">{v.label}</span>
+                    </a>
+                  ))}
+                </div>
+                {p.channel && (
+                  <a href={p.channel} target="_blank" rel="noopener" class="channel-link muted">
+                    More tutorials on the official YouTube channel ↗
+                  </a>
+                )}
+              </div>
+            )}
+
+            {p.note && (
+              <p class="panel-note">
+                <span>ℹ️</span> {p.note}
+              </p>
+            )}
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- How activation works -->
+  <section class="section how-sec">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Good to know</span>
+        <h2>How device activation works</h2>
+      </div>
+      <div class="grid info-grid">
+        <div class="card">
+          <span class="info-icon">🔑</span>
+          <h3>MAC Address &amp; Device Key</h3>
+          <p class="muted">
+            When you open the app it shows a unique <strong>MAC Address</strong> and
+            <strong>Device Key</strong>. These identify your device on the player's portal — that's
+            how your playlist gets linked to your TV or box.
+          </p>
+        </div>
+        <div class="card">
+          <span class="info-icon">🌐</span>
+          <h3>The web portal</h3>
+          <p class="muted">
+            You add your playlist once on the player's website using that MAC + Key. It syncs to the
+            app automatically — no typing long URLs with a TV remote.
+          </p>
+        </div>
+        <div class="card">
+          <span class="info-icon">🔄</span>
+          <h3>Changing or renewing</h3>
+          <p class="muted">
+            To update or renew, just edit the playlist on the portal and reload the app. Your device
+            stays registered — you don't reinstall anything.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Troubleshooting / support -->
+  <section class="section">
+    <div class="container">
+      <div class="support card">
+        <h2>Stuck on setup?</h2>
+        <p class="muted">
+          If channels won't load, double-check the playlist URL, make sure your subscription is
+          active, and restart the app. Still stuck? Send us your device's MAC Address and we'll get
+          you sorted.
+        </p>
+        <div class="support-actions">
+          <a href={supportLink} target="_blank" rel="noopener" class="btn btn-primary">
+            Get help on WhatsApp
+          </a>
+          <a href="/blog" class="btn btn-ghost">Troubleshooting guides</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('.player-tab');
+  const panels = document.querySelectorAll<HTMLElement>('.player-panel');
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const id = tab.dataset.tab;
+      tabs.forEach((t) => {
+        const on = t === tab;
+        t.classList.toggle('active', on);
+        t.setAttribute('aria-selected', String(on));
+      });
+      panels.forEach((p) => {
+        const on = p.dataset.panel === id;
+        p.classList.toggle('active', on);
+        if (on) {
+          // reveal (and re-stagger) the reveal elements inside the shown panel
+          p.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el, i) => {
+            el.style.setProperty('--reveal-delay', `${Math.min(i, 8) * 70}ms`);
+            el.classList.remove('is-visible');
+            void el.offsetWidth;
+            el.classList.add('is-visible');
+          });
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .guide-hero {
+    padding-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  .guide-hero-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 36px;
+    align-items: center;
+  }
+  .guide-hero-img {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 20px 44px rgba(0, 0, 0, 0.5));
+    animation: floatGuide 6s ease-in-out infinite;
+  }
+  @keyframes floatGuide {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  @media (max-width: 760px) {
+    .guide-hero-inner {
+      grid-template-columns: 1fr;
+    }
+    .guide-hero-img {
+      max-width: 360px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .guide-hero-img {
+      animation: none;
+    }
+  }
+  .guide-hero::before {
+    content: '';
+    position: absolute;
+    inset: -40% -10% auto auto;
+    width: 480px;
+    height: 480px;
+    background: radial-gradient(circle, rgba(63, 109, 255, 0.16), transparent 60%);
+    pointer-events: none;
+  }
+  .lead {
+    max-width: 62ch;
+    font-size: 1.1rem;
+    position: relative;
+  }
+  .need-sec {
+    padding-top: 0;
+  }
+  .need {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .need-icon {
+    font-size: 2rem;
+    flex-shrink: 0;
+  }
+  .need h2 {
+    font-size: 1.3rem;
+  }
+  .need p {
+    margin: 0;
+  }
+
+  /* Tabs */
+  .player-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 32px auto 0;
+    padding: 6px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    width: fit-content;
+    max-width: 100%;
+  }
+  .player-tab {
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-family: inherit;
+    font-weight: 700;
+    font-size: 0.95rem;
+    padding: 11px 26px;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: color 0.2s, background 0.25s;
+    white-space: nowrap;
+  }
+  .player-tab:hover {
+    color: var(--text);
+  }
+  .player-tab.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    box-shadow: 0 6px 18px rgba(63, 109, 255, 0.35);
+  }
+
+  /* Panels */
+  .player-panel {
+    display: none;
+    margin-top: 34px;
+    animation: panelIn 0.4s ease both;
+  }
+  .player-panel.active {
+    display: block;
+  }
+  @keyframes panelIn {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .panel-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    flex-wrap: wrap;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+  .panel-head h3 {
+    font-size: 1.5rem;
+    margin-bottom: 6px;
+  }
+  .chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+  }
+  .chip {
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--bg-soft);
+    border: 1px solid var(--border);
+    color: var(--muted);
+  }
+  .panel-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Timeline */
+  .timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: linear-gradient(var(--brand), var(--red));
+    opacity: 0.4;
+  }
+  .tl-step {
+    display: flex;
+    gap: 18px;
+    padding: 0 0 22px;
+    position: relative;
+  }
+  .tl-step:last-child {
+    padding-bottom: 0;
+  }
+  .tl-num {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    border: 4px solid var(--bg);
+    position: relative;
+    z-index: 1;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .tl-step:hover .tl-num {
+    transform: scale(1.12);
+    box-shadow: 0 0 0 6px rgba(63, 109, 255, 0.14);
+  }
+  .tl-step.is-visible .tl-num {
+    animation: numPop 0.5s cubic-bezier(0.22, 0.7, 0.2, 1);
+  }
+  @keyframes numPop {
+    0% {
+      transform: scale(0.4);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.14);
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  /* draw the connecting line as you scroll (progressive enhancement) */
+  @supports (animation-timeline: view()) {
+    .timeline::before {
+      transform-origin: top;
+      scale: 1 0;
+      animation: drawLine linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+    @keyframes drawLine {
+      to {
+        scale: 1 1;
+      }
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .tl-step.is-visible .tl-num {
+      animation: none;
+    }
+    @supports (animation-timeline: view()) {
+      .timeline::before {
+        scale: 1 1;
+        animation: none;
+      }
+    }
+  }
+  .tl-body h4 {
+    margin: 8px 0 4px;
+    font-size: 1.08rem;
+  }
+  .tl-body p {
+    margin: 0;
+    font-size: 0.94rem;
+  }
+  /* Video tutorials */
+  .videos {
+    margin-top: 30px;
+    padding: 22px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+  }
+  .videos-title {
+    margin: 0 0 16px;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .videos-title span {
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    background: #ff0000;
+    color: #fff;
+    font-size: 0.7rem;
+  }
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  .video-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .vc-thumb {
+    position: relative;
+    display: block;
+    aspect-ratio: 16 / 9;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--border);
+    background: #000;
+  }
+  .vc-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease, filter 0.2s ease;
+  }
+  .video-card:hover .vc-thumb img {
+    transform: scale(1.05);
+    filter: brightness(0.75);
+  }
+  .vc-play {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 62px;
+    height: 44px;
+    pointer-events: none;
+  }
+  .vc-play svg {
+    width: 100%;
+    height: 100%;
+  }
+  .yt-bg {
+    fill: #212121;
+    fill-opacity: 0.85;
+    transition: fill 0.2s ease, fill-opacity 0.2s ease;
+  }
+  .video-card:hover .yt-bg {
+    fill: #ff0000;
+    fill-opacity: 1;
+  }
+  .vc-badge {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(0, 0, 0, 0.75);
+    padding: 4px 10px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .vc-title {
+    font-weight: 700;
+    font-size: 0.95rem;
+    line-height: 1.35;
+  }
+  .video-card:hover .vc-title {
+    color: var(--brand);
+  }
+  .channel-link {
+    display: inline-block;
+    margin-top: 16px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .channel-link:hover {
+    color: var(--text);
+  }
+
+  .panel-note {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    margin-top: 24px;
+    padding: 14px 18px;
+    background: rgba(63, 109, 255, 0.08);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  /* Info grid */
+  .how-sec {
+    background: var(--bg-soft);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .info-grid {
+    grid-template-columns: repeat(3, 1fr);
+    margin-top: 36px;
+  }
+  .info-icon {
+    font-size: 1.8rem;
+  }
+  .info-grid h3 {
+    margin: 12px 0 6px;
+    font-size: 1.15rem;
+  }
+  .info-grid p {
+    margin: 0;
+    font-size: 0.92rem;
+  }
+
+  /* Support */
+  .support {
+    text-align: center;
+    background:
+      radial-gradient(600px 300px at 50% 0%, rgba(208, 39, 60, 0.12), transparent),
+      var(--surface);
+    padding: 48px 24px;
+  }
+  .support h2 {
+    margin-bottom: 8px;
+  }
+  .support p {
+    max-width: 56ch;
+    margin: 0 auto 22px;
+  }
+  .support-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  @media (max-width: 820px) {
+    .info-grid,
+    .video-grid {
+      grid-template-columns: 1fr;
+    }
+    .panel-actions {
+      width: 100%;
+    }
+    .panel-actions .btn {
+      width: 100%;
+    }
+  }
+</style>

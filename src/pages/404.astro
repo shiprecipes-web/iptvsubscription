@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Page not found">
+  <section class="section">
+    <div class="container center nf">
+      <span class="code">404</span>
+      <h1>Page not found</h1>
+      <p class="muted">
+        The page you're looking for doesn't exist or has moved. Let's get you back on track.
+      </p>
+      <div class="nf-actions">
+        <a href="/" class="btn btn-primary">Back to home</a>
+        <a href="/#pricing" class="btn btn-ghost">View plans</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf {
+    padding: 40px 0 20px;
+  }
+  .code {
+    display: block;
+    font-size: clamp(4rem, 14vw, 8rem);
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--brand), var(--brand-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .nf-actions {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+</style>

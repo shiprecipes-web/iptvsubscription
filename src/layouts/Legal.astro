@@ -1,0 +1,46 @@
+---
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  updated?: string;
+}
+const { title, description, updated = 'September 2026' } = Astro.props;
+---
+
+<Base title={title} description={description}>
+  <section class="section">
+    <div class="container legal">
+      <h1>{title}</h1>
+      <p class="muted updated">Last updated: {updated}</p>
+      <div class="legal-body">
+        <slot />
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style is:global>
+  .legal {
+    max-width: 760px;
+  }
+  .legal .updated {
+    margin-bottom: 30px;
+    font-size: 0.9rem;
+  }
+  .legal-body h2 {
+    font-size: 1.3rem;
+    margin-top: 32px;
+  }
+  .legal-body p,
+  .legal-body li {
+    color: var(--muted);
+    line-height: 1.75;
+  }
+  .legal-body ul {
+    padding-left: 20px;
+    display: grid;
+    gap: 8px;
+  }
+</style>

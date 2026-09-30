@@ -1,0 +1,41 @@
+---
+import { trust } from '../data/site';
+---
+
+<div class="trust-bar">
+  <div class="container trust-inner">
+    {
+      trust.map((t) => (
+        <div class="trust-item">
+          <span class="t-icon">{t.icon}</span>
+          <span>{t.text}</span>
+        </div>
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .trust-bar {
+    border-bottom: 1px solid var(--border);
+    background: rgba(63, 109, 255, 0.05);
+  }
+  .trust-inner {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 36px;
+    padding: 16px 20px;
+  }
+  .trust-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    color: var(--text);
+  }
+  .t-icon {
+    font-size: 1.1rem;
+  }
+</style>
