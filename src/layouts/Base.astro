@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 import SiteExtras from '../components/SiteExtras.astro';
 import PromoPopup from '../components/PromoPopup.astro';
 import { site } from '../data/site';
+import Analytics from '@vercel/analytics/astro';
 
 interface Props {
   title?: string;
@@ -80,6 +81,7 @@ const websiteSchema = {
     />
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
     <script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+    <Analytics />
   </head>
   <body>
     <AnnouncementBar />
