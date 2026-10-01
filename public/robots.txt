@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://iptvsubscription.top/sitemap-index.xml
+Sitemap: https://www.iptvsubscription.top/sitemap-index.xml

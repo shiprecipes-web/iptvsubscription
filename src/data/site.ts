@@ -1,7 +1,7 @@
 export const site = {
   name: 'IPTV Subscription',
   domain: 'iptvsubscription.top',
-  url: 'https://iptvsubscription.top',
+  url: 'https://www.iptvsubscription.top',
   tagline: 'Buy IPTV Subscription Online',
   description:
     'Reliable IPTV subscriptions for Smart TV, Firestick, Android TV, and mobile. Fast activation, thousands of channels, and support included.',
