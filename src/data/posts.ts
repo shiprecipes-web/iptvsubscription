@@ -222,6 +222,10 @@ export const coveredSlugs = new Set<string>([
   'iptv-epg-not-working',
   'fix-iptv-login-errors',
   'iptv-playlist-not-loading-fix',
+  'cord-cutting-guide',
+  'how-to-get-iptv',
+  'iptv-for-sports',
+  'is-iptv-legal-us',
 ]);
 
 export const coverFor = (slug: string): string | null =>
