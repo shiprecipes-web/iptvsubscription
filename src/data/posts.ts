@@ -4,9 +4,93 @@ export interface Post {
   date: string;
   excerpt: string;
   body: string[];
+  author?: string;
 }
 
+// Default byline used when a post does not set its own author.
+export const defaultAuthor = 'The iptvsubscription.top Team';
+
 export const posts: Post[] = [
+  {
+    slug: 'cord-cutting-guide',
+    title: 'Cord Cutting in 2026: How to Ditch Cable and Save',
+    date: '2026-10-01',
+    author: 'The iptvsubscription.top Team',
+    excerpt:
+      'Cord cutting means dropping cable or satellite for cheaper streaming. Here is how to do it in 2026, what you save, and how IPTV keeps your live channels.',
+    body: [
+      'Cord cutting means cancelling your cable or satellite TV and replacing it with cheaper streaming services you watch over the internet. In 2026 it is easier than ever, and most households save hundreds of dollars a year while keeping the live channels, sports, and shows they actually watch.',
+      '## What is cord cutting?',
+      'Cord cutting is the move away from traditional pay-TV contracts toward internet-based streaming. Instead of a cable box and a long contract, you use apps on a Smart TV, Firestick, or phone and pay only for what you want, month to month, with no installation visit.',
+      '## How much can you save?',
+      'A typical US cable bill runs $100 to $150 or more per month once fees and equipment rental are added. A streaming setup, including an <a href="/iptv-streaming-services">IPTV streaming service</a>, often costs a fraction of that. Our own plans work out to around $6.40 per month on an annual subscription, so the yearly saving against cable is large.',
+      '## Will you lose your live channels?',
+      'No. The biggest worry people have is losing live TV and sports, but an <a href="/iptv-usa">IPTV subscription</a> keeps live national networks, local channels, news, and sports in one place, alongside a big on-demand library of movies and series. You keep live TV without the cable contract.',
+      '## How to start cutting the cord',
+      'First, list the channels and shows you actually watch. Next, pick a reliable streaming device you already own, such as a Firestick, Roku, or Smart TV. Then choose a plan that covers your must-watch content and set it up using our <a href="/apps">setup guide</a>. Finally, cancel your cable once your new setup is working.',
+      '## Is it worth it?',
+      'For most households, yes. You get the same live channels and far more on-demand content for much less money, with no contract. Compare options in our <a href="/best-iptv-service">best IPTV service guide</a>, or see current plans on our <a href="/#pricing">pricing page</a>.',
+    ],
+  },
+  {
+    slug: 'how-to-get-iptv',
+    title: 'How to Get IPTV: A Beginner’s Guide (2026)',
+    date: '2026-09-30',
+    author: 'The iptvsubscription.top Team',
+    excerpt:
+      'New to IPTV? Here is exactly how to get IPTV in four simple steps — choose a provider, pick a device, install a player app, and start watching.',
+    body: [
+      'To get IPTV, you choose a provider, subscribe to a plan, install a player app on your device, and load the playlist the provider sends you. The whole process takes just a few minutes and does not require any special equipment beyond a device you probably already own.',
+      '## Step 1: Choose a reliable provider',
+      'Start by picking a provider with stable servers, a large channel list, clear pricing, and real support. Avoid cheap "lifetime" deals, which are usually unreliable. Our <a href="/best-iptv-service">best IPTV service guide</a> explains exactly what to look for.',
+      '## Step 2: Pick your device',
+      'IPTV works on devices you likely already have: Amazon Firestick, Roku, Apple TV, Samsung and LG Smart TVs, Android boxes, phones, tablets, and computers. Any one of these is enough to start.',
+      '## Step 3: Subscribe and get your playlist',
+      'Choose a plan on our <a href="/#pricing">pricing page</a> and order over WhatsApp. Once your payment is confirmed, we send your login details, an M3U link or Xtream Codes, within minutes.',
+      '## Step 4: Install a player and load your playlist',
+      'Install a player app such as IBO Player Pro or HotPlayer from your device’s app store, then enter the playlist details we sent you. Your channels, movies, and series load automatically. Our <a href="/apps">setup guide</a> has step-by-step instructions for each device.',
+      '## How fast can you start watching?',
+      'Most people are watching within minutes of ordering. Activation is almost instant once payment is confirmed. If you get stuck, message us on WhatsApp and we will help you finish setup. New US viewers can see the full lineup on our <a href="/iptv-usa">IPTV USA page</a>.',
+    ],
+  },
+  {
+    slug: 'iptv-for-sports',
+    title: 'IPTV for Sports: Watch Live NFL, NBA, NHL & PPV',
+    date: '2026-09-29',
+    author: 'The iptvsubscription.top Team',
+    excerpt:
+      'IPTV for sports lets you stream live NFL, NBA, MLB, NHL, and pay-per-view events in HD and 4K, on any device, without a cable sports package.',
+    body: [
+      'IPTV for sports lets you watch live games from the NFL, NBA, MLB, NHL, soccer, and more over the internet, including pay-per-view events, in HD and 4K. It replaces expensive cable sports packages and works on any device, so you can follow your teams at home or on the go.',
+      '## What sports can you watch?',
+      'A good IPTV service carries major US sports networks such as ESPN and the league channels for the NFL, NBA, MLB, and NHL, plus international soccer, boxing, UFC, and pay-per-view events. Coverage depends on the provider, so check the lineup before you subscribe.',
+      '## Why IPTV beats a cable sports package',
+      'Cable sports add-ons are expensive and tie you to one TV. IPTV gives you the same live sports for less, on any device, with no contract. You can watch on a Firestick in the living room or your phone away from home with the same subscription.',
+      '## What you need for smooth live sports',
+      'Live sports in 4K need a stable connection of around 25 Mbps and a provider with anti-freeze servers that hold up during big games. See our <a href="/iptv-4k">4K IPTV page</a> for the quality details and requirements.',
+      '## How to get set up for game day',
+      'Pick a plan on our <a href="/#pricing">pricing page</a>, install a player app, and load your playlist using our <a href="/apps">setup guide</a>. US fans can see the full American channel lineup on our <a href="/iptv-usa">IPTV USA page</a>. Set it up before kickoff and you are ready for the season.',
+    ],
+  },
+  {
+    slug: 'is-iptv-legal-us',
+    title: 'Is IPTV Legal in the US? What You Need to Know',
+    date: '2026-09-27',
+    author: 'The iptvsubscription.top Team',
+    excerpt:
+      'Is IPTV legal in the US? The technology itself is legal. Legality depends on whether the content is properly licensed. Here is how to tell and stay safe.',
+    body: [
+      'IPTV itself is completely legal in the US. It is simply a technology for streaming TV over the internet, used by major companies every day. Whether a specific IPTV service is lawful depends on one thing: whether the content it streams is properly licensed. Understanding that difference helps you choose a service with confidence.',
+      '## IPTV the technology vs IPTV the service',
+      'IPTV, short for Internet Protocol Television, is the method of delivering video over the internet instead of cable or satellite. The method is legal and widely used. The legal question is only about the content: a provider must have the rights to the channels and shows it offers.',
+      '## How to tell if a service is legitimate',
+      'Signs of a trustworthy service include clear business details, real customer support, a refund policy, and reasonable pricing. Be cautious with services that offer every premium channel for a few dollars with no support, as prices far below the market can be a warning sign.',
+      '## How to protect yourself',
+      'Choose a provider you can contact and that stands behind its service, read the terms before subscribing, and use a secure payment method. Our plans include a 7-day money-back guarantee so you can try the service with confidence. Review what to look for in our <a href="/best-iptv-service">best IPTV service guide</a>.',
+      '## The bottom line',
+      'IPTV is legal technology, and choosing a responsible provider is what matters. If you are ready to start, see our <a href="/#pricing">plans</a> or the full US lineup on our <a href="/iptv-usa">IPTV USA page</a>. This article is general information, not legal advice.',
+    ],
+  },
   {
     slug: 'how-to-install-iptv-on-firestick',
     title: 'How to Install IPTV on Firestick: Step-by-Step Guide (2026)',
