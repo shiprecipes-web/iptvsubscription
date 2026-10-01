@@ -1,0 +1,272 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PricingSpotlight from '../components/PricingSpotlight.astro';
+import PaymentsTrust from '../components/PaymentsTrust.astro';
+import TrustBar from '../components/TrustBar.astro';
+import { site } from '../data/site';
+import { tiers } from '../data/plans';
+
+const title = 'Best IPTV Subscription in the USA (2026)';
+const description =
+  'Reliable IPTV in the USA: 34,000+ live channels, US sports, news and local networks in 4K, on Firestick, Smart TV, Roku and mobile. Fast activation, support included.';
+
+// Page-specific FAQ — answers written for US buyers and AI Overviews.
+const usaFaqs = [
+  {
+    q: 'What is the best IPTV subscription in the USA?',
+    a: 'The best IPTV subscription in the USA is one with reliable US servers, American channel coverage (ABC, NBC, CBS, FOX, ESPN and local networks), 4K streaming, and responsive support. iptvsubscription.top covers all of these with 34,000+ channels and a 7-day money-back guarantee.',
+  },
+  {
+    q: 'Does the subscription include US sports channels?',
+    a: 'Yes. Plans include major US sports coverage such as ESPN, NFL, NBA, MLB and NHL networks, plus pay-per-view events, streamed in HD and 4K where available.',
+  },
+  {
+    q: 'Will IPTV work on my US devices?',
+    a: 'Yes. It works on Amazon Firestick and Fire TV, Roku, Apple TV, Samsung and LG Smart TVs, Android TV boxes, iPhone, iPad, and Windows or Mac computers. You load the playlist in a player app after subscribing.',
+  },
+  {
+    q: 'How fast is activation in the USA?',
+    a: 'Activation is almost instant. After your payment is confirmed on WhatsApp, your login details are sent within minutes, so you can start watching the same day.',
+  },
+  {
+    q: 'Is IPTV legal in the USA?',
+    a: 'IPTV itself is a legal streaming technology. Legality depends on whether the content is properly licensed. Always choose a provider you trust and review the channels and terms before subscribing.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: usaFaqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'IPTV USA', item: `${site.url}/iptv-usa` },
+  ],
+};
+
+const allPrices = tiers.flatMap((t) => Object.values(t.prices));
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${site.name} — IPTV Subscription USA`,
+  description,
+  image: new URL('/images/hero-devices.jpg', site.url).href,
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: Math.min(...allPrices).toFixed(2),
+    highPrice: Math.max(...allPrices).toFixed(2),
+    offerCount: allPrices.length,
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/iptv-usa#pricing`,
+  },
+};
+
+const usaPoints = [
+  { icon: 'tv', title: 'US channels & locals', text: 'ABC, NBC, CBS, FOX, ESPN, news and regional networks, plus thousands of entertainment channels.' },
+  { icon: 'zap', title: 'Stable US servers', text: 'Low-latency streaming built for American viewers, with anti-freeze technology for smooth playback.' },
+  { icon: 'life-buoy', title: 'Support included', text: 'Help with setup, playlists and renewals whenever you need it, included with every plan.' },
+];
+---
+
+<Base title={title} description={description} preloadImage="/images/hero-devices.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <!-- HERO (answer-first for AI Overviews) -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">IPTV in the USA</span>
+        <h1>Best IPTV Subscription in the USA</h1>
+        <p class="lead muted">
+          Looking for the best IPTV in the USA? iptvsubscription.top delivers 34,000+ live channels
+          and 130,000+ movies and series, including US sports, news and local networks, in up to 4K.
+          It works on Firestick, Roku, Apple TV, Smart TVs and mobile, with fast activation and a
+          7-day money-back guarantee.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">View Plans</a>
+          <a href="/apps" class="btn btn-ghost">Setup guide</a>
+        </div>
+        <div class="hero-trust">
+          <span>⚡ Same-day activation</span>
+          <span>🇺🇸 US channels & sports</span>
+          <span>🛟 Support included</span>
+        </div>
+      </div>
+      <div class="hero-card hero-visual">
+        <img
+          src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt="Watch US IPTV channels on a Smart TV, smartphone and Firestick"
+          width="1200"
+          height="655"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <!-- WHY US IPTV -->
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Built for US viewers</span>
+        <h2>Why choose our USA IPTV subscription</h2>
+      </div>
+      <div class="grid features usa-grid">
+        {
+          usaPoints.map((f) => (
+            <div class="card feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT: question-style H2s for SEO + GEO -->
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>What channels do you get with US IPTV?</h2>
+      <p class="muted">
+        Our US lineup covers the major national networks (ABC, NBC, CBS, FOX), sports channels such as
+        ESPN and the NFL, NBA, MLB and NHL networks, 24-hour news, kids and entertainment, and a deep
+        on-demand library of movies and series. Local and regional channels are included across major
+        US markets, with new content added continuously.
+      </p>
+
+      <h2>What devices does it work on?</h2>
+      <p class="muted">
+        You can watch on Amazon Firestick and Fire TV, Roku, Apple TV, Samsung and LG Smart TVs,
+        Android TV boxes, iPhone, iPad, and Windows or Mac. After you subscribe, you load your playlist
+        into a player app and start watching. Our <a href="/apps">setup guide</a> walks through each device.
+      </p>
+
+      <h2>How much does IPTV cost in the USA?</h2>
+      <p class="muted">
+        Plans start low and get cheaper the longer you subscribe, with 1, 2 and 3 connection options so
+        you can stream on several devices at once. See current pricing below, or read our full
+        <a href="/blog/how-much-does-iptv-cost">IPTV pricing guide</a>.
+      </p>
+
+      <h2>Is IPTV legal in the USA?</h2>
+      <p class="muted">
+        IPTV is a legal streaming technology. Whether a specific service is lawful depends on how its
+        content is licensed, so choose a provider you trust and review the channels and terms before you
+        subscribe.
+      </p>
+    </div>
+  </section>
+
+  <!-- PRICING (reused component) -->
+  <PricingSpotlight />
+  <PaymentsTrust />
+
+  <!-- FAQ -->
+  <section class="section" id="faq">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <div class="container narrow">
+      <div class="center">
+        <span class="eyebrow">FAQ</span>
+        <h2>USA IPTV — frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          usaFaqs.map((f) => (
+            <details class="faq">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- INTERNAL LINKS (hub + siblings) -->
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Explore more</span>
+        <h2>Related pages</h2>
+      </div>
+      <div class="grid link-cards">
+        <a href="/" class="card link-card">Home — Buy IPTV Subscription →</a>
+        <a href="/apps" class="card link-card">IPTV Setup Guide →</a>
+        <a href="/blog/how-much-does-iptv-cost" class="card link-card">How much does IPTV cost? →</a>
+        <a href="/faq" class="card link-card">All FAQs →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>Start watching US IPTV today</h2>
+        <p class="muted">Choose a plan and get activated within minutes. Support is here if you need it.</p>
+        <div class="hero-actions center-actions">
+          <a href="#pricing" class="btn btn-primary">Order Now</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 40px; }
+  .hero-inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .lead { font-size: 1.1rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 14px; margin: 26px 0 20px; flex-wrap: wrap; }
+  .center-actions { justify-content: center; }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+  .hero-visual { border-radius: var(--radius-lg); }
+  .hero-visual img { width: 100%; height: auto; border-radius: var(--radius-lg); filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5)); }
+  .features.usa-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+  .feature-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(63,109,255,0.3); }
+  .feature:nth-child(3n + 2) .feature-icon { background: linear-gradient(135deg, var(--red), var(--red-2)); box-shadow: 0 8px 22px rgba(208,39,60,0.3); }
+  .feature h3 { margin: 16px 0 6px; font-size: 1.15rem; }
+  .feature p { font-size: 0.92rem; margin: 0; }
+  .narrow { max-width: 780px; }
+  .prose h2 { margin: 28px 0 10px; font-size: 1.3rem; }
+  .prose p { margin: 0 0 8px; }
+  .prose a { color: var(--brand-text); font-weight: 600; }
+  .faq-list { margin-top: 34px; display: grid; gap: 12px; }
+  .faq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 20px; }
+  .faq summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; position: relative; padding-right: 30px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; font-size: 1.3rem; color: var(--brand-text); }
+  .faq[open] summary::after { content: '−'; }
+  .faq p { padding-bottom: 16px; margin: 0; font-size: 0.94rem; }
+  .link-cards { grid-template-columns: repeat(4, 1fr); margin-top: 34px; }
+  .link-card { font-weight: 700; color: var(--brand-text); display: flex; align-items: center; }
+  .cta { text-align: center; background: radial-gradient(600px 300px at 50% 0%, rgba(63,109,255,0.16), transparent), var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 56px 24px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .features.usa-grid, .link-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .features.usa-grid, .link-cards { grid-template-columns: 1fr; }
+  }
+</style>

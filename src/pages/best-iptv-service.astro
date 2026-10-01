@@ -1,0 +1,264 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PricingSpotlight from '../components/PricingSpotlight.astro';
+import PaymentsTrust from '../components/PaymentsTrust.astro';
+import TrustBar from '../components/TrustBar.astro';
+import { site } from '../data/site';
+import { tiers } from '../data/plans';
+
+const title = 'Best IPTV Service (2026): How to Choose the Right Provider';
+const description =
+  'How to choose the best IPTV service in 2026: what to look for in channels, reliability, 4K quality, devices and support — and why iptvsubscription.top is a top pick.';
+
+const faqs = [
+  {
+    q: 'What makes the best IPTV service?',
+    a: 'The best IPTV service combines a large, up-to-date channel list, reliable servers with little buffering, 4K and FHD quality, wide device support, honest pricing, and fast, responsive support. A money-back guarantee is a strong sign the provider stands behind the service.',
+  },
+  {
+    q: 'What is the best IPTV service in the USA?',
+    a: 'For US viewers, the best IPTV service covers national networks, US sports and local channels on stable servers. iptvsubscription.top offers 34,000+ channels, 4K streaming, all major devices and a 7-day money-back guarantee.',
+  },
+  {
+    q: 'What is the best IPTV player?',
+    a: 'Popular IPTV players include IBO Player Pro and HotPlayer, which are easy to set up on Firestick, Smart TVs and mobile. The best player for you depends on your device; our setup guide covers each one.',
+  },
+  {
+    q: 'How do I avoid a bad IPTV provider?',
+    a: 'Avoid providers with no support channel, unrealistic lifetime deals, or no refund policy. Choose a service with clear pricing, a money-back guarantee, real support, and a short low-cost plan you can test first.',
+  },
+  {
+    q: 'How much should a good IPTV service cost?',
+    a: 'A good IPTV service typically costs a few dollars per month on an annual plan. Prices that are far too low can signal an unstable service. See our current plans below for realistic pricing.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Best IPTV Service', item: `${site.url}/best-iptv-service` },
+  ],
+};
+
+const allPrices = tiers.flatMap((t) => Object.values(t.prices));
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${site.name} — Best IPTV Service`,
+  description,
+  image: new URL('/images/hero-devices.jpg', site.url).href,
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: Math.min(...allPrices).toFixed(2),
+    highPrice: Math.max(...allPrices).toFixed(2),
+    offerCount: allPrices.length,
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/best-iptv-service#pricing`,
+  },
+};
+
+const criteria = [
+  { icon: 'tv', title: 'Channel coverage', text: 'A large, current list with the sports, news and entertainment you actually watch, plus on-demand movies and series.' },
+  { icon: 'zap', title: 'Reliability & 4K', text: 'Stable servers with anti-freeze technology and 4K, FHD and HD quality, so playback stays smooth at peak times.' },
+  { icon: 'life-buoy', title: 'Support & guarantee', text: 'Real, responsive support and a 7-day money-back guarantee that shows the provider stands behind the service.' },
+];
+---
+
+<Base title={title} description={description} preloadImage="/images/hero-devices.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Best IPTV service 2026</span>
+        <h1>Best IPTV Service: How to Choose the Right Provider</h1>
+        <p class="lead muted">
+          The best IPTV service combines a large, up-to-date channel list, reliable servers, 4K
+          quality, wide device support and real support, backed by a money-back guarantee.
+          iptvsubscription.top meets every one of these with 34,000+ channels, 130,000+ titles, all
+          major devices and a 7-day money-back guarantee.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">View Plans</a>
+          <a href="#criteria" class="btn btn-ghost">What to look for</a>
+        </div>
+        <div class="hero-trust">
+          <span>⭐ 34,000+ channels</span>
+          <span>📺 All devices</span>
+          <span>🛟 7-day money-back</span>
+        </div>
+      </div>
+      <div class="hero-card hero-visual">
+        <img
+          src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt="The best IPTV service streaming on Smart TV, phone and Firestick"
+          width="1200"
+          height="655"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <section class="section" id="criteria">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">What to look for</span>
+        <h2>How to choose the best IPTV provider</h2>
+      </div>
+      <div class="grid features best-grid">
+        {
+          criteria.map((f) => (
+            <div class="card feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>What makes an IPTV service the best?</h2>
+      <p class="muted">
+        A top IPTV service gets the fundamentals right: a broad, regularly updated channel list, servers
+        that hold up during live sports, 4K and FHD streaming, support for every common device, and a
+        support team you can actually reach. A clear refund policy is the signal that a provider trusts
+        its own service.
+      </p>
+
+      <h2>What is the best IPTV player?</h2>
+      <p class="muted">
+        The player is the app that loads your channels. Reliable choices include IBO Player Pro and
+        HotPlayer, both easy to install on Firestick, Smart TVs and phones. See our
+        <a href="/blog/ibo-player-pro-vs-hotplayer">IBO Player Pro vs HotPlayer comparison</a> and the
+        <a href="/blog/best-iptv-app-for-firestick">best IPTV app for Firestick</a> guide.
+      </p>
+
+      <h2>Best IPTV service in the USA</h2>
+      <p class="muted">
+        US viewers should prioritise American channel coverage, local networks and US-based servers for
+        low latency. Our dedicated <a href="/iptv-usa">IPTV USA page</a> covers the full lineup and
+        pricing for American households.
+      </p>
+
+      <h2>How to avoid a bad provider</h2>
+      <p class="muted">
+        Steer clear of services with no support, no refund policy, or "lifetime" deals that are too good
+        to be true. Start with a short, low-cost plan to test reliability before committing to a year.
+      </p>
+    </div>
+  </section>
+
+  <PricingSpotlight />
+  <PaymentsTrust />
+
+  <section class="section" id="faq">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <div class="container narrow">
+      <div class="center">
+        <span class="eyebrow">FAQ</span>
+        <h2>Best IPTV service — frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((f) => (
+            <details class="faq">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Explore more</span>
+        <h2>Related pages</h2>
+      </div>
+      <div class="grid link-cards">
+        <a href="/" class="card link-card">Home — Buy IPTV Subscription →</a>
+        <a href="/iptv-usa" class="card link-card">Best IPTV in the USA →</a>
+        <a href="/blog/how-much-does-iptv-cost" class="card link-card">How much does IPTV cost? →</a>
+        <a href="/apps" class="card link-card">IPTV Setup Guide →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>Ready to try a top-rated IPTV service?</h2>
+        <p class="muted">Pick a plan, get activated in minutes, and it is covered by our 7-day money-back guarantee.</p>
+        <div class="hero-actions center-actions">
+          <a href="#pricing" class="btn btn-primary">Order Now</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 40px; }
+  .hero-inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .lead { font-size: 1.1rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 14px; margin: 26px 0 20px; flex-wrap: wrap; }
+  .center-actions { justify-content: center; }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+  .hero-visual { border-radius: var(--radius-lg); }
+  .hero-visual img { width: 100%; height: auto; border-radius: var(--radius-lg); filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5)); }
+  .features.best-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+  .feature-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(63,109,255,0.3); }
+  .feature:nth-child(3n + 2) .feature-icon { background: linear-gradient(135deg, var(--red), var(--red-2)); box-shadow: 0 8px 22px rgba(208,39,60,0.3); }
+  .feature h3 { margin: 16px 0 6px; font-size: 1.15rem; }
+  .feature p { font-size: 0.92rem; margin: 0; }
+  .narrow { max-width: 780px; }
+  .prose h2 { margin: 28px 0 10px; font-size: 1.3rem; }
+  .prose p { margin: 0 0 8px; }
+  .prose a { color: var(--brand-text); font-weight: 600; }
+  .faq-list { margin-top: 34px; display: grid; gap: 12px; }
+  .faq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 20px; }
+  .faq summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; position: relative; padding-right: 30px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; font-size: 1.3rem; color: var(--brand-text); }
+  .faq[open] summary::after { content: '−'; }
+  .faq p { padding-bottom: 16px; margin: 0; font-size: 0.94rem; }
+  .link-cards { grid-template-columns: repeat(4, 1fr); margin-top: 34px; }
+  .link-card { font-weight: 700; color: var(--brand-text); display: flex; align-items: center; }
+  .cta { text-align: center; background: radial-gradient(600px 300px at 50% 0%, rgba(63,109,255,0.16), transparent), var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 56px 24px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .features.best-grid, .link-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .features.best-grid, .link-cards { grid-template-columns: 1fr; }
+  }
+</style>

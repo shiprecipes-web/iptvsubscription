@@ -1,0 +1,263 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PricingSpotlight from '../components/PricingSpotlight.astro';
+import PaymentsTrust from '../components/PaymentsTrust.astro';
+import TrustBar from '../components/TrustBar.astro';
+import { site } from '../data/site';
+import { tiers } from '../data/plans';
+
+const title = 'IPTV Streaming Services: Watch Live TV Over the Internet';
+const description =
+  'IPTV streaming services let you watch 34,000+ live channels, sports and 130,000+ movies over the internet in 4K — on Firestick, Smart TV, Roku and mobile. No cable, no dish.';
+
+const faqs = [
+  {
+    q: 'What are IPTV streaming services?',
+    a: 'IPTV streaming services deliver live TV channels, movies and series over your internet connection instead of a cable line or satellite dish. You subscribe, load a playlist into a player app, and stream directly to any device in HD or 4K.',
+  },
+  {
+    q: 'How is IPTV different from other streaming services?',
+    a: 'Regular streaming services like Netflix offer on-demand libraries only. IPTV streaming adds thousands of live TV channels, including sports and news, alongside a large on-demand library, for one subscription.',
+  },
+  {
+    q: 'What do I need to use an IPTV streaming service?',
+    a: 'You need a stable internet connection (around 15–25 Mbps for 4K), a supported device such as a Firestick, Smart TV, Roku or phone, and a player app. After subscribing, you load your playlist and start watching.',
+  },
+  {
+    q: 'Can I stream on more than one device at once?',
+    a: 'Yes. Plans come with 1, 2 or 3 connections so different people in your home can stream on separate devices at the same time.',
+  },
+  {
+    q: 'What internet speed do I need for IPTV streaming?',
+    a: 'About 10 Mbps is enough for HD, and 25 Mbps gives a reliable 4K stream. A wired connection or strong Wi-Fi gives the smoothest playback.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'IPTV Streaming Services', item: `${site.url}/iptv-streaming-services` },
+  ],
+};
+
+const allPrices = tiers.flatMap((t) => Object.values(t.prices));
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${site.name} — IPTV Streaming Service`,
+  description,
+  image: new URL('/images/hero-devices.jpg', site.url).href,
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: Math.min(...allPrices).toFixed(2),
+    highPrice: Math.max(...allPrices).toFixed(2),
+    offerCount: allPrices.length,
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/iptv-streaming-services#pricing`,
+  },
+};
+
+const points = [
+  { icon: 'tv', title: 'Live TV + on demand', text: '34,000+ live channels plus 130,000+ movies and series, all in one subscription.' },
+  { icon: 'zap', title: 'Stream in 4K', text: 'Anti-freeze servers deliver 4K, FHD and HD quality with smooth playback at peak times.' },
+  { icon: 'life-buoy', title: 'Any device', text: 'Firestick, Roku, Apple TV, Smart TVs, Android and iOS — stream on up to three at once.' },
+];
+---
+
+<Base title={title} description={description} preloadImage="/images/hero-devices.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">IPTV streaming services</span>
+        <h1>IPTV Streaming Services: Live TV Over the Internet</h1>
+        <p class="lead muted">
+          IPTV streaming services let you watch live TV over your internet connection instead of cable
+          or satellite. iptvsubscription.top streams 34,000+ live channels and 130,000+ movies and
+          series in up to 4K, on Firestick, Roku, Smart TV and mobile, with fast activation and support
+          included.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">View Plans</a>
+          <a href="/apps" class="btn btn-ghost">Setup guide</a>
+        </div>
+        <div class="hero-trust">
+          <span>📡 No dish, no cable</span>
+          <span>🎬 Live TV + movies</span>
+          <span>🛟 Support included</span>
+        </div>
+      </div>
+      <div class="hero-card hero-visual">
+        <img
+          src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt="IPTV streaming service playing on a Smart TV, phone and Firestick"
+          width="1200"
+          height="655"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Why stream with us</span>
+        <h2>What you get with our IPTV streaming service</h2>
+      </div>
+      <div class="grid features stream-grid">
+        {
+          points.map((f) => (
+            <div class="card feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>What are IPTV streaming services?</h2>
+      <p class="muted">
+        IPTV stands for Internet Protocol Television. Instead of receiving channels through a cable line
+        or satellite dish, you stream them over your internet connection. You subscribe, load a playlist
+        into a player app, and watch live TV, sports, news, movies and series on any device.
+      </p>
+
+      <h2>How is IPTV different from Netflix or cable?</h2>
+      <p class="muted">
+        Services like Netflix only offer on-demand libraries. Cable gives you live channels but at a high
+        price with a contract. IPTV streaming combines both: thousands of live channels plus a large
+        on-demand library, for one low subscription and no contract. See our
+        <a href="/blog/how-much-does-iptv-cost">pricing guide</a> for a full cost comparison.
+      </p>
+
+      <h2>What do you need to start streaming?</h2>
+      <p class="muted">
+        You need a stable internet connection, a supported device, and a player app. Around 10 Mbps is
+        enough for HD and 25 Mbps for 4K. Our <a href="/apps">setup guide</a> covers Firestick, Roku,
+        Smart TVs and mobile step by step.
+      </p>
+
+      <h2>Can the whole household watch?</h2>
+      <p class="muted">
+        Yes. Choose a 2 or 3 connection plan and different people can stream on separate devices at the
+        same time. US viewers can see the full American lineup on our <a href="/iptv-usa">IPTV USA page</a>.
+      </p>
+    </div>
+  </section>
+
+  <PricingSpotlight />
+  <PaymentsTrust />
+
+  <section class="section" id="faq">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <div class="container narrow">
+      <div class="center">
+        <span class="eyebrow">FAQ</span>
+        <h2>IPTV streaming — frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((f) => (
+            <details class="faq">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Explore more</span>
+        <h2>Related pages</h2>
+      </div>
+      <div class="grid link-cards">
+        <a href="/" class="card link-card">Home — Buy IPTV Subscription →</a>
+        <a href="/best-iptv-service" class="card link-card">Best IPTV Service →</a>
+        <a href="/iptv-usa" class="card link-card">IPTV in the USA →</a>
+        <a href="/apps" class="card link-card">IPTV Setup Guide →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>Start streaming IPTV today</h2>
+        <p class="muted">Pick a plan, get activated in minutes, and stream live TV on any device.</p>
+        <div class="hero-actions center-actions">
+          <a href="#pricing" class="btn btn-primary">Order Now</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 40px; }
+  .hero-inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .lead { font-size: 1.1rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 14px; margin: 26px 0 20px; flex-wrap: wrap; }
+  .center-actions { justify-content: center; }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+  .hero-visual { border-radius: var(--radius-lg); }
+  .hero-visual img { width: 100%; height: auto; border-radius: var(--radius-lg); filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5)); }
+  .features.stream-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+  .feature-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(63,109,255,0.3); }
+  .feature:nth-child(3n + 2) .feature-icon { background: linear-gradient(135deg, var(--red), var(--red-2)); box-shadow: 0 8px 22px rgba(208,39,60,0.3); }
+  .feature h3 { margin: 16px 0 6px; font-size: 1.15rem; }
+  .feature p { font-size: 0.92rem; margin: 0; }
+  .narrow { max-width: 780px; }
+  .prose h2 { margin: 28px 0 10px; font-size: 1.3rem; }
+  .prose p { margin: 0 0 8px; }
+  .prose a { color: var(--brand-text); font-weight: 600; }
+  .faq-list { margin-top: 34px; display: grid; gap: 12px; }
+  .faq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 20px; }
+  .faq summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; position: relative; padding-right: 30px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; font-size: 1.3rem; color: var(--brand-text); }
+  .faq[open] summary::after { content: '−'; }
+  .faq p { padding-bottom: 16px; margin: 0; font-size: 0.94rem; }
+  .link-cards { grid-template-columns: repeat(4, 1fr); margin-top: 34px; }
+  .link-card { font-weight: 700; color: var(--brand-text); display: flex; align-items: center; }
+  .cta { text-align: center; background: radial-gradient(600px 300px at 50% 0%, rgba(63,109,255,0.16), transparent), var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 56px 24px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .features.stream-grid, .link-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .features.stream-grid, .link-cards { grid-template-columns: 1fr; }
+  }
+</style>

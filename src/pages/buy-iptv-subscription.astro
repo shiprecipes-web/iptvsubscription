@@ -1,0 +1,255 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PricingSpotlight from '../components/PricingSpotlight.astro';
+import PaymentsTrust from '../components/PaymentsTrust.astro';
+import TrustBar from '../components/TrustBar.astro';
+import { site } from '../data/site';
+import { tiers } from '../data/plans';
+
+const title = 'Buy IPTV Subscription Online — Cheap & Premium Plans';
+const description =
+  'Buy an IPTV subscription online from $6.42/mo. Cheap and premium plans with 34,000+ channels, 4K, all devices, instant activation and a 7-day money-back guarantee.';
+
+const faqs = [
+  {
+    q: 'How do I buy an IPTV subscription?',
+    a: 'Choose a plan below and tap "Order on WhatsApp." This opens a chat with your plan and price pre-filled. We confirm your payment and send your login details within minutes, so you can start watching the same day.',
+  },
+  {
+    q: 'How much does it cost to buy IPTV?',
+    a: 'Plans start at about $6.42 per month on an annual subscription, with 1, 2 and 3 connection options. Longer plans cost less per month. See current pricing below.',
+  },
+  {
+    q: 'Is cheap IPTV any good?',
+    a: 'Cheap IPTV is worth it when the provider keeps servers stable and channels current. Be wary of prices that are far below the market or "lifetime" deals, which often mean an unreliable service. Our plans balance low cost with reliability and a money-back guarantee.',
+  },
+  {
+    q: 'What payment methods can I use?',
+    a: 'You can pay with Visa, Mastercard, PayPal, Google Pay and Apple Pay. Orders are confirmed over WhatsApp for fast, secure activation.',
+  },
+  {
+    q: 'What is the difference between cheap and premium IPTV?',
+    a: 'Premium IPTV adds more reliable servers, fuller 4K coverage and stronger support. Our plans include premium features such as 4K quality, anti-freeze servers and support at every price point.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'Buy IPTV Subscription', item: `${site.url}/buy-iptv-subscription` },
+  ],
+};
+
+const allPrices = tiers.flatMap((t) => Object.values(t.prices));
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${site.name} — Buy IPTV Subscription`,
+  description,
+  image: new URL('/images/hero-devices.jpg', site.url).href,
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: Math.min(...allPrices).toFixed(2),
+    highPrice: Math.max(...allPrices).toFixed(2),
+    offerCount: allPrices.length,
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/buy-iptv-subscription#pricing`,
+  },
+};
+
+const points = [
+  { icon: 'zap', title: 'Instant activation', text: 'Pay over WhatsApp and get your login within minutes — start watching the same day.' },
+  { icon: 'tv', title: 'Premium at every price', text: '4K quality, 34,000+ channels and anti-freeze servers on cheap and premium plans alike.' },
+  { icon: 'life-buoy', title: '7-day money-back', text: 'Buy with confidence. Every plan is backed by a 7-day money-back guarantee.' },
+];
+---
+
+<Base title={title} description={description} preloadImage="/images/hero-devices.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Buy IPTV subscription</span>
+        <h1>Buy an IPTV Subscription Online</h1>
+        <p class="lead muted">
+          Buy an IPTV subscription online from about $6.42 per month. Choose a cheap or premium plan
+          with 34,000+ live channels, 130,000+ movies and series, 4K quality and all devices supported.
+          Pay securely, activate in minutes, and enjoy a 7-day money-back guarantee.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">See Plans & Prices</a>
+          <a href="#faq" class="btn btn-ghost">How it works</a>
+        </div>
+        <div class="hero-trust">
+          <span>💳 Card, PayPal, Apple &amp; Google Pay</span>
+          <span>⚡ Instant activation</span>
+          <span>🛟 7-day money-back</span>
+        </div>
+      </div>
+      <div class="hero-card hero-visual">
+        <img
+          src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt="Buy an IPTV subscription and watch on Smart TV, phone and Firestick"
+          width="1200"
+          height="655"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Why buy from us</span>
+        <h2>Cheap prices, premium service</h2>
+      </div>
+      <div class="grid features buy-grid">
+        {
+          points.map((f) => (
+            <div class="card feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <PricingSpotlight />
+  <PaymentsTrust />
+
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>How to buy an IPTV subscription</h2>
+      <p class="muted">
+        Pick the plan and length that suit you, tap "Order on WhatsApp," and your plan and price are
+        filled in automatically. Once your payment is confirmed, we send your login details and you can
+        start watching within minutes.
+      </p>
+
+      <h2>Cheap IPTV vs premium IPTV</h2>
+      <p class="muted">
+        Cheaper plans simply mean a longer commitment, not a weaker service: every plan includes 4K
+        quality, anti-freeze servers and support. For a full cost breakdown, read our
+        <a href="/blog/how-much-does-iptv-cost">IPTV pricing guide</a>.
+      </p>
+
+      <h2>Which plan should you choose?</h2>
+      <p class="muted">
+        Pick 1 connection for a single TV, or 2 to 3 connections to stream on several devices at once.
+        New to IPTV? See <a href="/best-iptv-service">how to choose the best IPTV service</a> or the
+        full <a href="/iptv-usa">IPTV USA lineup</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section" id="faq">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <div class="container narrow">
+      <div class="center">
+        <span class="eyebrow">FAQ</span>
+        <h2>Buying IPTV — frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((f) => (
+            <details class="faq">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Explore more</span>
+        <h2>Related pages</h2>
+      </div>
+      <div class="grid link-cards">
+        <a href="/" class="card link-card">Home — IPTV Subscription →</a>
+        <a href="/best-iptv-service" class="card link-card">Best IPTV Service →</a>
+        <a href="/iptv-usa" class="card link-card">IPTV in the USA →</a>
+        <a href="/iptv-service-providers" class="card link-card">IPTV Service Providers →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>Buy your IPTV subscription today</h2>
+        <p class="muted">Choose a plan, pay securely, and start watching in minutes with a 7-day money-back guarantee.</p>
+        <div class="hero-actions center-actions">
+          <a href="#pricing" class="btn btn-primary">Order Now</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 40px; }
+  .hero-inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .lead { font-size: 1.1rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 14px; margin: 26px 0 20px; flex-wrap: wrap; }
+  .center-actions { justify-content: center; }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+  .hero-visual { border-radius: var(--radius-lg); }
+  .hero-visual img { width: 100%; height: auto; border-radius: var(--radius-lg); filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5)); }
+  .features.buy-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+  .feature-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(63,109,255,0.3); }
+  .feature:nth-child(3n + 2) .feature-icon { background: linear-gradient(135deg, var(--red), var(--red-2)); box-shadow: 0 8px 22px rgba(208,39,60,0.3); }
+  .feature h3 { margin: 16px 0 6px; font-size: 1.15rem; }
+  .feature p { font-size: 0.92rem; margin: 0; }
+  .narrow { max-width: 780px; }
+  .prose h2 { margin: 28px 0 10px; font-size: 1.3rem; }
+  .prose p { margin: 0 0 8px; }
+  .prose a { color: var(--brand-text); font-weight: 600; }
+  .faq-list { margin-top: 34px; display: grid; gap: 12px; }
+  .faq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 20px; }
+  .faq summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; position: relative; padding-right: 30px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; font-size: 1.3rem; color: var(--brand-text); }
+  .faq[open] summary::after { content: '−'; }
+  .faq p { padding-bottom: 16px; margin: 0; font-size: 0.94rem; }
+  .link-cards { grid-template-columns: repeat(4, 1fr); margin-top: 34px; }
+  .link-card { font-weight: 700; color: var(--brand-text); display: flex; align-items: center; }
+  .cta { text-align: center; background: radial-gradient(600px 300px at 50% 0%, rgba(63,109,255,0.16), transparent), var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 56px 24px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .features.buy-grid, .link-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .features.buy-grid, .link-cards { grid-template-columns: 1fr; }
+  }
+</style>

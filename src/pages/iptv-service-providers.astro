@@ -1,0 +1,260 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PricingSpotlight from '../components/PricingSpotlight.astro';
+import PaymentsTrust from '../components/PaymentsTrust.astro';
+import TrustBar from '../components/TrustBar.astro';
+import { site } from '../data/site';
+import { tiers } from '../data/plans';
+
+const title = 'IPTV Service Providers: What to Look For (2026)';
+const description =
+  'Comparing IPTV service providers? Learn what separates a reliable IPTV provider from the rest — channels, uptime, 4K, devices and support — and see our plans.';
+
+const faqs = [
+  {
+    q: 'What is an IPTV service provider?',
+    a: 'An IPTV service provider is a company that delivers live TV channels, movies and series over the internet. You subscribe, receive a playlist, and stream the content through a player app on your device instead of using cable or satellite.',
+  },
+  {
+    q: 'What should I look for in an IPTV provider?',
+    a: 'Look for a large and current channel list, reliable servers with minimal buffering, 4K and FHD quality, support for your devices, clear pricing, responsive support, and a money-back guarantee.',
+  },
+  {
+    q: 'Are there reliable IPTV providers in the USA?',
+    a: 'Yes. A reliable US provider offers American national and local channels, US sports, and servers tuned for low latency. iptvsubscription.top serves US households with 34,000+ channels and a 7-day money-back guarantee.',
+  },
+  {
+    q: 'How many devices can I use with one provider?',
+    a: 'With iptvsubscription.top you can choose 1, 2 or 3 connections, letting you stream on several devices at the same time under one subscription.',
+  },
+  {
+    q: 'What makes a provider unreliable?',
+    a: 'Warning signs include frequent buffering, no support channel, no refund policy, and "lifetime" subscriptions that are too cheap to be sustainable. Test a short plan before committing long term.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: 'IPTV Service Providers', item: `${site.url}/iptv-service-providers` },
+  ],
+};
+
+const allPrices = tiers.flatMap((t) => Object.values(t.prices));
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${site.name} — IPTV Service Provider`,
+  description,
+  image: new URL('/images/hero-devices.jpg', site.url).href,
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: Math.min(...allPrices).toFixed(2),
+    highPrice: Math.max(...allPrices).toFixed(2),
+    offerCount: allPrices.length,
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/iptv-service-providers#pricing`,
+  },
+};
+
+const points = [
+  { icon: 'tv', title: 'Full channel lineup', text: '34,000+ live channels and 130,000+ movies and series, updated continuously.' },
+  { icon: 'zap', title: 'Uptime & 4K', text: 'Stable servers with anti-freeze technology for smooth 4K, FHD and HD playback.' },
+  { icon: 'life-buoy', title: 'Backed by support', text: 'Responsive support and a 7-day money-back guarantee on every plan.' },
+];
+---
+
+<Base title={title} description={description} preloadImage="/images/hero-devices.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">IPTV service providers</span>
+        <h1>IPTV Service Providers: What to Look For</h1>
+        <p class="lead muted">
+          A good IPTV service provider delivers a large, current channel list on reliable servers, in
+          4K, across all your devices, with real support behind it. iptvsubscription.top does exactly
+          that with 34,000+ channels, 130,000+ titles and a 7-day money-back guarantee.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">View Plans</a>
+          <a href="#criteria" class="btn btn-ghost">What to look for</a>
+        </div>
+        <div class="hero-trust">
+          <span>📺 34,000+ channels</span>
+          <span>⚡ Stable servers</span>
+          <span>🛟 7-day money-back</span>
+        </div>
+      </div>
+      <div class="hero-card hero-visual">
+        <img
+          src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt="A reliable IPTV service provider streaming on Smart TV, phone and Firestick"
+          width="1200"
+          height="655"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <section class="section" id="criteria">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">What to look for</span>
+        <h2>What separates a reliable IPTV provider</h2>
+      </div>
+      <div class="grid features prov-grid">
+        {
+          points.map((f) => (
+            <div class="card feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>What is an IPTV service provider?</h2>
+      <p class="muted">
+        An IPTV service provider delivers live TV, movies and series over the internet instead of cable
+        or satellite. After you subscribe, you receive a playlist and stream everything through a player
+        app on your device. Learn more in our <a href="/iptv-streaming-services">IPTV streaming services</a> guide.
+      </p>
+
+      <h2>How to compare IPTV providers</h2>
+      <p class="muted">
+        Compare providers on channel coverage, server reliability during live events, streaming quality,
+        device support, pricing and the strength of their support and refund policy. Our
+        <a href="/best-iptv-service">best IPTV service guide</a> breaks down each factor in detail.
+      </p>
+
+      <h2>Reliable IPTV providers in the USA</h2>
+      <p class="muted">
+        US viewers should prioritise American channel coverage, local networks and US-based servers.
+        See the full American lineup and pricing on our <a href="/iptv-usa">IPTV USA page</a>.
+      </p>
+
+      <h2>Red flags to avoid</h2>
+      <p class="muted">
+        Avoid providers with constant buffering, no reachable support, or cheap "lifetime" deals that
+        cannot last. Start with a short plan to test reliability before you commit to a year.
+      </p>
+    </div>
+  </section>
+
+  <PricingSpotlight />
+  <PaymentsTrust />
+
+  <section class="section" id="faq">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <div class="container narrow">
+      <div class="center">
+        <span class="eyebrow">FAQ</span>
+        <h2>IPTV providers — frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((f) => (
+            <details class="faq">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Explore more</span>
+        <h2>Related pages</h2>
+      </div>
+      <div class="grid link-cards">
+        <a href="/" class="card link-card">Home — Buy IPTV Subscription →</a>
+        <a href="/best-iptv-service" class="card link-card">Best IPTV Service →</a>
+        <a href="/iptv-usa" class="card link-card">IPTV in the USA →</a>
+        <a href="/iptv-streaming-services" class="card link-card">IPTV Streaming Services →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>A provider you can rely on</h2>
+        <p class="muted">Pick a plan, get activated in minutes, and it is covered by our 7-day money-back guarantee.</p>
+        <div class="hero-actions center-actions">
+          <a href="#pricing" class="btn btn-primary">Order Now</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 40px; }
+  .hero-inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .lead { font-size: 1.1rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 14px; margin: 26px 0 20px; flex-wrap: wrap; }
+  .center-actions { justify-content: center; }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+  .hero-visual { border-radius: var(--radius-lg); }
+  .hero-visual img { width: 100%; height: auto; border-radius: var(--radius-lg); filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5)); }
+  .features.prov-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+  .feature-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(63,109,255,0.3); }
+  .feature:nth-child(3n + 2) .feature-icon { background: linear-gradient(135deg, var(--red), var(--red-2)); box-shadow: 0 8px 22px rgba(208,39,60,0.3); }
+  .feature h3 { margin: 16px 0 6px; font-size: 1.15rem; }
+  .feature p { font-size: 0.92rem; margin: 0; }
+  .narrow { max-width: 780px; }
+  .prose h2 { margin: 28px 0 10px; font-size: 1.3rem; }
+  .prose p { margin: 0 0 8px; }
+  .prose a { color: var(--brand-text); font-weight: 600; }
+  .faq-list { margin-top: 34px; display: grid; gap: 12px; }
+  .faq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 20px; }
+  .faq summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; position: relative; padding-right: 30px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; font-size: 1.3rem; color: var(--brand-text); }
+  .faq[open] summary::after { content: '−'; }
+  .faq p { padding-bottom: 16px; margin: 0; font-size: 0.94rem; }
+  .link-cards { grid-template-columns: repeat(4, 1fr); margin-top: 34px; }
+  .link-card { font-weight: 700; color: var(--brand-text); display: flex; align-items: center; }
+  .cta { text-align: center; background: radial-gradient(600px 300px at 50% 0%, rgba(63,109,255,0.16), transparent), var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 56px 24px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .features.prov-grid, .link-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .features.prov-grid, .link-cards { grid-template-columns: 1fr; }
+  }
+</style>

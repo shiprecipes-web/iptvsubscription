@@ -1,0 +1,261 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PricingSpotlight from '../components/PricingSpotlight.astro';
+import PaymentsTrust from '../components/PaymentsTrust.astro';
+import TrustBar from '../components/TrustBar.astro';
+import { site } from '../data/site';
+import { tiers } from '../data/plans';
+
+const title = '4K IPTV: Ultra HD Channels & Streaming (2026)';
+const description =
+  '4K IPTV with Ultra HD live channels, sports and movies on anti-freeze servers. Stream crisp 4K on Firestick, Smart TV, Roku and mobile. Fast activation, support included.';
+
+const faqs = [
+  {
+    q: 'What is 4K IPTV?',
+    a: '4K IPTV streams live channels, sports and movies in Ultra HD (3840 x 2160), four times the detail of Full HD. You need a 4K-capable device, a fast connection, and a provider with 4K channels, all of which iptvsubscription.top supports.',
+  },
+  {
+    q: 'What internet speed do I need for 4K IPTV?',
+    a: 'Plan for around 25 Mbps for a smooth 4K stream. A wired connection or strong 5GHz Wi-Fi gives the most reliable playback and avoids buffering during live events.',
+  },
+  {
+    q: 'Which devices support 4K IPTV?',
+    a: 'Any 4K-capable device works, including Firestick 4K and 4K Max, Fire TV, 4K Smart TVs from Samsung and LG, Apple TV 4K, and newer Android TV boxes.',
+  },
+  {
+    q: 'Are all channels available in 4K?',
+    a: 'Not every channel broadcasts in 4K yet. Our service streams channels in 4K where the source is available, and in FHD or HD otherwise, always at the best quality the channel provides.',
+  },
+  {
+    q: 'Does 4K IPTV cost more?',
+    a: 'No. 4K quality is included in all our plans at no extra cost. You only need a 4K device and a fast enough connection to enjoy it.',
+  },
+];
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: site.url },
+    { '@type': 'ListItem', position: 2, name: '4K IPTV', item: `${site.url}/iptv-4k` },
+  ],
+};
+
+const allPrices = tiers.flatMap((t) => Object.values(t.prices));
+const productSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Product',
+  name: `${site.name} — 4K IPTV`,
+  description,
+  image: new URL('/images/hero-devices.jpg', site.url).href,
+  brand: { '@type': 'Brand', name: site.name },
+  offers: {
+    '@type': 'AggregateOffer',
+    priceCurrency: 'USD',
+    lowPrice: Math.min(...allPrices).toFixed(2),
+    highPrice: Math.max(...allPrices).toFixed(2),
+    offerCount: allPrices.length,
+    availability: 'https://schema.org/InStock',
+    url: `${site.url}/iptv-4k#pricing`,
+  },
+};
+
+const points = [
+  { icon: 'tv', title: 'Ultra HD picture', text: 'Live channels, sports and movies in 4K where available, with FHD and HD everywhere else.' },
+  { icon: 'zap', title: 'Anti-freeze servers', text: 'High-bandwidth servers keep 4K streams smooth even during peak live events.' },
+  { icon: 'life-buoy', title: '4K at no extra cost', text: '4K quality is included in every plan — you just need a 4K device and fast internet.' },
+];
+---
+
+<Base title={title} description={description} preloadImage="/images/hero-devices.jpg">
+  <script type="application/ld+json" set:html={JSON.stringify(breadcrumb)} />
+  <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">4K IPTV</span>
+        <h1>4K IPTV: Ultra HD Channels & Streaming</h1>
+        <p class="lead muted">
+          4K IPTV streams live channels, sports and movies in Ultra HD — four times the detail of Full
+          HD. iptvsubscription.top delivers 4K on anti-freeze servers across Firestick, Smart TV, Roku
+          and mobile, included in every plan at no extra cost.
+        </p>
+        <div class="hero-actions">
+          <a href="#pricing" class="btn btn-primary">View Plans</a>
+          <a href="#faq" class="btn btn-ghost">4K requirements</a>
+        </div>
+        <div class="hero-trust">
+          <span>🎞️ Ultra HD 2160p</span>
+          <span>⚡ Anti-freeze servers</span>
+          <span>🛟 Support included</span>
+        </div>
+      </div>
+      <div class="hero-card hero-visual">
+        <img
+          src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
+          alt="4K IPTV Ultra HD streaming on a Smart TV, phone and Firestick"
+          width="1200"
+          height="655"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+    </div>
+  </section>
+
+  <TrustBar />
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Why 4K with us</span>
+        <h2>Ultra HD streaming that stays smooth</h2>
+      </div>
+      <div class="grid features k-grid">
+        {
+          points.map((f) => (
+            <div class="card feature">
+              <span class="feature-icon"><Icon name={f.icon} /></span>
+              <h3>{f.title}</h3>
+              <p class="muted">{f.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container narrow prose">
+      <h2>What is 4K IPTV?</h2>
+      <p class="muted">
+        4K IPTV streams content at 3840 x 2160 resolution, four times the pixels of Full HD, for a
+        sharper, more detailed picture. You need a 4K-capable device, a fast internet connection, and a
+        provider that carries 4K channels.
+      </p>
+
+      <h2>What do you need for 4K?</h2>
+      <p class="muted">
+        A 4K device such as a Firestick 4K, Apple TV 4K or 4K Smart TV, plus around 25 Mbps of
+        bandwidth. A wired connection or strong Wi-Fi gives the smoothest result. Our
+        <a href="/apps">setup guide</a> covers each device.
+      </p>
+
+      <h2>Is every channel in 4K?</h2>
+      <p class="muted">
+        Not yet. 4K depends on the broadcaster's source feed, so we stream channels in 4K where it is
+        available and in FHD or HD otherwise, always at the best quality on offer.
+      </p>
+
+      <h2>4K for US viewers</h2>
+      <p class="muted">
+        American sports and entertainment look their best in 4K. See the full US lineup and pricing on
+        our <a href="/iptv-usa">IPTV USA page</a>, or compare options in our
+        <a href="/best-iptv-service">best IPTV service guide</a>.
+      </p>
+    </div>
+  </section>
+
+  <PricingSpotlight />
+  <PaymentsTrust />
+
+  <section class="section" id="faq">
+    <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    <div class="container narrow">
+      <div class="center">
+        <span class="eyebrow">FAQ</span>
+        <h2>4K IPTV — frequently asked questions</h2>
+      </div>
+      <div class="faq-list">
+        {
+          faqs.map((f) => (
+            <details class="faq">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="center">
+        <span class="eyebrow">Explore more</span>
+        <h2>Related pages</h2>
+      </div>
+      <div class="grid link-cards">
+        <a href="/" class="card link-card">Home — IPTV Subscription →</a>
+        <a href="/iptv-streaming-services" class="card link-card">IPTV Streaming Services →</a>
+        <a href="/iptv-usa" class="card link-card">IPTV in the USA →</a>
+        <a href="/best-iptv-service" class="card link-card">Best IPTV Service →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta">
+        <h2>Watch in stunning 4K today</h2>
+        <p class="muted">Pick a plan, activate in minutes, and stream Ultra HD on any 4K device.</p>
+        <div class="hero-actions center-actions">
+          <a href="#pricing" class="btn btn-primary">Order Now</a>
+          <a href="/contact" class="btn btn-ghost">Contact support</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 72px 0 40px; }
+  .hero-inner { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
+  .lead { font-size: 1.1rem; max-width: 54ch; }
+  .hero-actions { display: flex; gap: 14px; margin: 26px 0 20px; flex-wrap: wrap; }
+  .center-actions { justify-content: center; }
+  .hero-trust { display: flex; gap: 20px; flex-wrap: wrap; color: var(--muted); font-size: 0.92rem; font-weight: 600; }
+  .hero-visual { border-radius: var(--radius-lg); }
+  .hero-visual img { width: 100%; height: auto; border-radius: var(--radius-lg); filter: drop-shadow(0 24px 60px rgba(0,0,0,0.5)); }
+  .features.k-grid { grid-template-columns: repeat(3, 1fr); margin-top: 40px; }
+  .feature-icon { display: inline-grid; place-items: center; width: 52px; height: 52px; border-radius: 14px; color: #fff; background: linear-gradient(135deg, var(--brand), var(--brand-2)); box-shadow: 0 8px 22px rgba(63,109,255,0.3); }
+  .feature:nth-child(3n + 2) .feature-icon { background: linear-gradient(135deg, var(--red), var(--red-2)); box-shadow: 0 8px 22px rgba(208,39,60,0.3); }
+  .feature h3 { margin: 16px 0 6px; font-size: 1.15rem; }
+  .feature p { font-size: 0.92rem; margin: 0; }
+  .narrow { max-width: 780px; }
+  .prose h2 { margin: 28px 0 10px; font-size: 1.3rem; }
+  .prose p { margin: 0 0 8px; }
+  .prose a { color: var(--brand-text); font-weight: 600; }
+  .faq-list { margin-top: 34px; display: grid; gap: 12px; }
+  .faq { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 4px 20px; }
+  .faq summary { cursor: pointer; font-weight: 700; padding: 16px 0; list-style: none; position: relative; padding-right: 30px; }
+  .faq summary::-webkit-details-marker { display: none; }
+  .faq summary::after { content: '+'; position: absolute; right: 0; font-size: 1.3rem; color: var(--brand-text); }
+  .faq[open] summary::after { content: '−'; }
+  .faq p { padding-bottom: 16px; margin: 0; font-size: 0.94rem; }
+  .link-cards { grid-template-columns: repeat(4, 1fr); margin-top: 34px; }
+  .link-card { font-weight: 700; color: var(--brand-text); display: flex; align-items: center; }
+  .cta { text-align: center; background: radial-gradient(600px 300px at 50% 0%, rgba(63,109,255,0.16), transparent), var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 56px 24px; }
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr; }
+    .features.k-grid, .link-cards { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .features.k-grid, .link-cards { grid-template-columns: 1fr; }
+  }
+</style>

@@ -14,11 +14,23 @@ export const site = {
 export const nav = [
   { label: 'Home', href: '/' },
   { label: 'Plans', href: '/#pricing' },
+  { label: 'IPTV USA', href: '/iptv-usa' },
+  { label: 'Best IPTV', href: '/best-iptv-service' },
   { label: 'Setup Guide', href: '/apps' },
   { label: 'Blog', href: '/blog' },
   { label: 'FAQ', href: '/faq' },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
+];
+
+// Extra landing pages linked in the footer (kept out of the top nav to avoid crowding).
+export const popularPages = [
+  { label: 'IPTV USA', href: '/iptv-usa' },
+  { label: 'Best IPTV Service', href: '/best-iptv-service' },
+  { label: 'IPTV Service Providers', href: '/iptv-service-providers' },
+  { label: 'Buy IPTV Subscription', href: '/buy-iptv-subscription' },
+  { label: 'IPTV Streaming Services', href: '/iptv-streaming-services' },
+  { label: '4K IPTV', href: '/iptv-4k' },
 ];
 
 export const features = [
