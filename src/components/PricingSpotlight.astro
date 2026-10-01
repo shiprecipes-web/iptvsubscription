@@ -70,6 +70,8 @@ const perMonth = (price: number, months: number) =>
                 class:list={['btn', 'sp-btn', tier.popular ? 'btn-primary' : 'btn-ghost']}
                 data-order
                 data-devices={tier.devices}
+                data-name={tier.name}
+                aria-label={`Order ${tier.name} on WhatsApp`}
                 href={orderLink(tier, DEFAULT)}
                 target="_blank"
                 rel="noopener"
@@ -209,7 +211,7 @@ const perMonth = (price: number, months: number) =>
     padding: 6px 18px; border-radius: 999px;
     box-shadow: 0 8px 20px rgba(208, 39, 60, 0.5);
   }
-  .sp-dev { color: var(--brand); letter-spacing: 3px; font-size: 0.9rem; }
+  .sp-dev { color: var(--brand-text); letter-spacing: 3px; font-size: 0.9rem; }
   .featured .sp-dev { color: var(--red); }
   .sp-card h3 { font-size: 1.4rem; margin: 8px 0 6px; }
   .sp-blurb { font-size: 0.88rem; min-height: 2.6em; margin: 0; }

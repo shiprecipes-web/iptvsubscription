@@ -8,7 +8,8 @@
   --text: #eef2ff;
   --muted: #a7b2da;
   /* flag blue (bright for readability on navy) — links, eyebrows, highlights */
-  --brand: #3f6dff;
+  --brand: #3a64f2; /* fills: white text on it passes 4.5:1 */
+  --brand-text: #7592ff; /* blue TEXT on navy: passes 4.5:1 */
   --brand-2: #6d8dff;
   /* Old Glory red — primary buttons & key CTAs */
   --red: #d0273c;
@@ -87,7 +88,7 @@ p {
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--brand);
+  color: var(--brand-text);
   margin-bottom: 12px;
 }
 
@@ -154,7 +155,7 @@ p {
   padding: 4px 12px;
   border-radius: 999px;
   background: rgba(63, 109, 255, 0.15);
-  color: var(--brand);
+  color: var(--brand-text);
 }
 
 @media (max-width: 640px) {

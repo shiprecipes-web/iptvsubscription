@@ -45,7 +45,7 @@ const productSchema = {
 };
 ---
 
-<Base>
+<Base preloadImage="/images/hero-devices.jpg">
   <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
 
   <!-- HERO -->
@@ -72,10 +72,13 @@ const productSchema = {
       <div class="hero-card hero-visual">
         <img
           src="/images/hero-devices.jpg"
+          srcset="/images/hero-640.jpg 640w, /images/hero-devices.jpg 1200w"
+          sizes="(max-width: 900px) 92vw, 520px"
           alt="Watch IPTV on a Smart TV, smartphone and streaming stick"
-          width="1408"
-          height="768"
+          width="1200"
+          height="655"
           fetchpriority="high"
+          decoding="async"
         />
       </div>
     </div>
@@ -372,7 +375,7 @@ const productSchema = {
   }
   .thumb-fallback {
     font-size: 2.4rem;
-    color: var(--brand);
+    color: var(--brand-text);
     opacity: 0.5;
   }
   .post-content {
@@ -390,7 +393,7 @@ const productSchema = {
     font-size: 0.9rem;
   }
   .read-more {
-    color: var(--brand);
+    color: var(--brand-text);
     font-weight: 700;
     font-size: 0.9rem;
   }
@@ -424,7 +427,7 @@ const productSchema = {
     position: absolute;
     right: 0;
     font-size: 1.3rem;
-    color: var(--brand);
+    color: var(--brand-text);
   }
   .faq[open] summary::after {
     content: '−';

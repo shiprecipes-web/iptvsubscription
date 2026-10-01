@@ -98,35 +98,33 @@
   transform: none;
 }
 
-/* ---------- Hero entrance (pure CSS, no JS) ---------- */
-.hero-copy > *,
-.hero-card {
-  animation: fadeUp 0.8s cubic-bezier(0.22, 0.7, 0.2, 1) both;
+/* ---------- Hero entrance (transform-only: content is painted immediately) ---------- */
+@keyframes riseIn {
+  from {
+    transform: translateY(14px);
+  }
+  to {
+    transform: none;
+  }
 }
-.hero-copy .eyebrow {
-  animation-delay: 0.05s;
+.hero-copy > * {
+  animation: riseIn 0.5s cubic-bezier(0.22, 0.7, 0.2, 1) both;
 }
 .hero-copy h1 {
-  animation-delay: 0.15s;
+  animation-delay: 0.05s;
 }
 .hero-copy .lead {
-  animation-delay: 0.28s;
+  animation-delay: 0.1s;
 }
 .hero-copy .hero-actions {
-  animation-delay: 0.4s;
+  animation-delay: 0.15s;
 }
 .hero-copy .hero-trust {
-  animation-delay: 0.5s;
+  animation-delay: 0.2s;
 }
+/* hero image (the LCP element): no opacity fade, just a gentle float */
 .hero-card {
-  animation-delay: 0.35s;
-}
-
-/* gentle float on the hero stat card after it enters */
-.hero-card {
-  animation:
-    fadeUp 0.8s cubic-bezier(0.22, 0.7, 0.2, 1) 0.35s both,
-    float 6s ease-in-out 1.2s infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 /* animated aurora glow behind the hero */
@@ -165,8 +163,6 @@
     #ffffff 30px 60px,
     var(--brand) 60px 90px
   );
-  background-size: 180px 100%;
-  animation: stripeShift 5s linear infinite;
   opacity: 0.85;
 }
 
@@ -245,7 +241,16 @@
 
 /* pulsing order button on the sticky mobile bar */
 .mobile-bar .btn-primary {
-  animation: pulseGlow 2.4s ease-in-out infinite;
+  animation: pulseScale 2.4s ease-in-out infinite;
+}
+@keyframes pulseScale {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
 }
 
 /* logo mark subtle idle bob */

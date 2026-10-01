@@ -7,21 +7,21 @@ const year = new Date().getFullYear();
   <div class="container footer-grid">
     <div>
       <a href="/" class="logo">
-        <img class="logo-mark" src="/images/logo-mark.png" alt={`${site.name} logo`} width="28" height="28" />
+        <img class="logo-mark" src="/images/logo-96.png" alt={`${site.name} logo`} width="28" height="28" />
         <span>IPTV <span class="logo-tld">Subscription</span></span>
       </a>
       <p class="muted foot-blurb">{site.description}</p>
     </div>
 
     <div>
-      <h4>Navigate</h4>
+      <h3>Navigate</h3>
       <ul>
         {nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}
       </ul>
     </div>
 
     <div>
-      <h4>Support</h4>
+      <h3>Support</h3>
       <ul>
         <li><a href="/contact">Contact us</a></li>
         <li><a href="/#faq">FAQ</a></li>
@@ -31,7 +31,7 @@ const year = new Date().getFullYear();
     </div>
 
     <div>
-      <h4>Legal</h4>
+      <h3>Legal</h3>
       <ul>
         <li><a href="/terms">Terms of Service</a></li>
         <li><a href="/privacy">Privacy Policy</a></li>
@@ -75,14 +75,14 @@ const year = new Date().getFullYear();
     object-fit: contain;
   }
   .logo-tld {
-    color: var(--brand);
+    color: var(--brand-text);
   }
   .foot-blurb {
     margin-top: 14px;
     max-width: 42ch;
     font-size: 0.92rem;
   }
-  h4 {
+  h3 {
     font-size: 0.95rem;
     margin: 0 0 14px;
   }
